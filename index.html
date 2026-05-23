@@ -913,6 +913,7 @@ const deliveryFee = 3000;
 let cart = [];
 
 function cleanEmailKey(email) {
+    if(!email) return "unknown";
     return email.toLowerCase().replace(/[^a-zA-Z0-9]/g, "_");
 }
 
@@ -1192,7 +1193,7 @@ function submitOrder() {
         note: note,
         items: cart,
         total: totalAmt,
-        userEmail: currentUser.email,
+        userEmail: currentUser.email.toLowerCase().trim(),
         status: "pending", 
         date: new Date().toLocaleString()
     };
@@ -1219,7 +1220,6 @@ function submitOrder() {
                 document.getElementById('cartCount').innerText = 0;
                 updateCartUI();
                 
-                // Direct WhatsApp API Link to 07507131541
                 window.open(`https://wa.me/9647507131541?text=${msg}`);
             });
         }
@@ -1230,12 +1230,13 @@ function submitOrder() {
 function fetchMyInvoices(userKey) {
     db.ref('user_invoices/' + userKey).on('value', snap => {
         const list = document.getElementById('myInvoicesList');
+        if(!list) return;
         list.innerHTML = '';
         const data = snap.val();
         if(data) {
             Object.keys(data).reverse().forEach(id => {
                 const inv = data[id];
-                let itemsStr = inv.items.map(i => i.name).join(' + ');
+                let itemsStr = inv.items ? inv.items.map(i => i.name).join(' + ') : "کاڵا";
                 
                 let statusText = "چاوەڕوانە ⏳";
                 let statusClass = "status-pending";
@@ -1273,12 +1274,22 @@ function switchAdminRoom(roomId, btnElement) {
     document.getElementById(roomId).classList.add('active-panel');
 }
 
-/* UPDATE ORDER STATUS BY ADMIN */
+/* UPDATE ORDER STATUS BY ADMIN WITH SYNC FIXED */
 function updateOrderStatus(orderId, email, newStatus) {
-    const userKey = cleanEmailKey(email);
+    if(!email) { alert("ئیمێڵی کڕیار تێکچووە، گۆڕانکاری نەکرا"); return; }
+    
+    const userKey = cleanEmailKey(email.trim());
+    
+    // Update live globally under orders
     db.ref('orders/' + orderId + '/status').set(newStatus);
-    db.ref('user_invoices/' + userKey + '/' + orderId + '/status').set(newStatus, () => {
-        alert("دۆخی داواکاری گۆڕدرا بە سەرکەوتوویی 🔄");
+    
+    // Update live under customer profile invoices
+    db.ref('user_invoices/' + userKey + '/' + orderId + '/status').set(newStatus, (err) => {
+        if(!err) {
+            alert("دۆخی داواکاری بە سەرکەوتوویی نوێکرایەوە 🔄");
+        } else {
+            alert("کێشەیەک لە سینککردنی دۆخەکە هەیە لای کڕیار");
+        }
     });
 }
 
@@ -1299,7 +1310,8 @@ function loadAdminRoomsData() {
         if(data) {
             Object.keys(data).reverse().forEach(key => {
                 const order = data[key];
-                let itemNames = order.items.map(i => i.name).join(' + ');
+                let itemNames = order.items ? order.items.map(i => i.name).join(' + ') : "کاڵا";
+                let clientEmail = order.userEmail || "";
                 
                 let currentStatusLabel = "چاوەڕوانە ⏳";
                 if(order.status === 'approved') currentStatusLabel = "قبوڵکراوە ✅";
@@ -1311,13 +1323,13 @@ function loadAdminRoomsData() {
                     <div><b>📍 ناونیشان:</b> ${order.address}</div>
                     <div style="color:blue; margin:4px 0;"><b>📦 کاڵاکان:</b> ${itemNames}</div>
                     <div style="color:var(--green); font-weight:bold;"><b>💰 کۆی گشتی:</b> ${formatPrice(order.total)} د.ع</div>
-                    <div style="font-size:11px; color:#777; margin-top:4px;">📅 ${order.date} | 📧 هەژماری: ${order.userEmail}</div>
+                    <div style="font-size:11px; color:#777; margin-top:4px;">📅 ${order.date} | 📧 هەژماری: ${clientEmail}</div>
                     <div style="margin-top: 5px; font-weight: bold; color: #555;">دۆخی ئێستا: <span style="color: #000;">${currentStatusLabel}</span></div>
                     
                     <div style="margin-top: 10px; display: flex; gap: 8px;">
-                        <button onclick="updateOrderStatus('${key}', '${order.userEmail}', 'approved')" style="background:var(--green); color:white; border:none; padding:6px 12px; border-radius:8px; cursor:pointer; font-size:12px;">قبوڵکردن ✅</button>
-                        <button onclick="updateOrderStatus('${key}', '${order.userEmail}', 'rejected')" style="background:var(--orange); color:white; border:none; padding:6px 12px; border-radius:8px; cursor:pointer; font-size:12px;">ڕەتکردنەوە ❌</button>
-                        <button onclick="if(confirm('دڵنیای لە ڕەشکردنەوەی یەکجاری؟')){ db.ref('orders/${key}').remove(); db.ref('user_invoices/${cleanEmailKey(order.userEmail)}/${key}').remove(); }" style="background:var(--red); color:white; border:none; padding:6px 12px; border-radius:8px; cursor:pointer; font-size:12px; margin-right: auto;">سڕینەوە 🗑️</button>
+                        <button onclick="updateOrderStatus('${key}', '${clientEmail}', 'approved')" style="background:var(--green); color:white; border:none; padding:6px 12px; border-radius:8px; cursor:pointer; font-size:12px;">قبوڵکردن ✅</button>
+                        <button onclick="updateOrderStatus('${key}', '${clientEmail}', 'rejected')" style="background:var(--orange); color:white; border:none; padding:6px 12px; border-radius:8px; cursor:pointer; font-size:12px;">ڕەتکردنەوە ❌</button>
+                        <button onclick="if(confirm('دڵنیای لە ڕەشکردنەوەی یەکجاری؟')){ db.ref('orders/${key}').remove(); db.ref('user_invoices/${cleanEmailKey(clientEmail)}/${key}').remove(); }" style="background:var(--red); color:white; border:none; padding:6px 12px; border-radius:8px; cursor:pointer; font-size:12px; margin-right: auto;">سڕینەوە 🗑️</button>
                     </div>
                 </div>`;
             });
