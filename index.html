@@ -18,6 +18,7 @@
     --card:#ffffff;
     --text:#1c1e21;
     --red:#ff4757;
+    --green:#2ecc71;
 }
 
 *{
@@ -33,7 +34,7 @@ body{
     padding-bottom:120px;
 }
 
-/* HEADER WITH LANG SELECT */
+/* HEADER */
 .header {
     background: #000;
     color: var(--gold);
@@ -47,6 +48,14 @@ body{
 .header h1 {
     font-size: 24px;
     letter-spacing: 2px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.header-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
 
 .header select {
@@ -57,7 +66,6 @@ body{
     border-radius: 8px;
     font-size: 13px;
     width: auto;
-    margin: 0;
     cursor: pointer;
 }
 
@@ -76,7 +84,6 @@ body{
 }
 
 /* SEARCH */
-
 .search-box{
     width:92%;
     margin:15px auto 5px auto;
@@ -144,7 +151,31 @@ body{
     border-radius: 2px;
 }
 
-/* CATEGORY SECTIONS */
+/* SUB-CATEGORIES */
+.sub-categories {
+    display: none;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 10px 15px;
+    background: #f9f9f9;
+    border-bottom: 1px solid #eee;
+}
+
+.sub-tab {
+    background: #eee;
+    padding: 6px 12px;
+    border-radius: 15px;
+    border: none;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.sub-tab.active-sub {
+    background: #000;
+    color: var(--gold);
+}
+
+/* SECTIONS */
 .category-section {
     width: 95%;
     margin: 0 auto 20px auto;
@@ -155,34 +186,7 @@ body{
     display: block; 
 }
 
-.category-title-box {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #fff;
-    color: #000;
-    padding: 10px 5px;
-    margin-bottom: 10px;
-    border-bottom: 1px dashed #ddd;
-}
-
-.category-title-box h2 {
-    font-size: 18px;
-}
-
-.more-btn {
-    background: #000;
-    color: var(--gold);
-    border: none;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 11px;
-}
-
 /* NAVIGATION */
-
 .nav-bottom{
     position:fixed;
     bottom:15px;
@@ -215,7 +219,6 @@ body{
 }
 
 /* ADS */
-
 .ads-slider{
     width:95%;
     height:190px;
@@ -239,8 +242,7 @@ body{
     animation:fadeIn 0.8s;
 }
 
-/* PRODUCT */
-
+/* PRODUCT GRID */
 .grid{
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -257,10 +259,6 @@ body{
     transition:0.35s;
 }
 
-.item-card:hover{
-    transform:translateY(-5px) scale(1.02);
-}
-
 .img-box{
     background:linear-gradient(145deg,#fff,#f5f5f5);
     height:170px;
@@ -271,11 +269,6 @@ body{
     width:100%;
     height:100%;
     object-fit:contain;
-    transition:0.4s;
-}
-
-.item-card:hover img{
-    transform:scale(1.08);
 }
 
 .badge-sale{
@@ -328,8 +321,6 @@ body{
     margin:8px 0;
 }
 
-/* BUTTON */
-
 .add-cart-btn{
     width:100%;
     border:none;
@@ -341,12 +332,6 @@ body{
     cursor:pointer;
     margin-top:10px;
     font-size:13px;
-    transition:0.3s;
-    box-shadow:0 8px 20px rgba(212,175,55,0.3);
-}
-
-.add-cart-btn:hover{
-    transform:scale(1.03);
 }
 
 .btn-main{
@@ -358,9 +343,8 @@ body{
     border-radius:15px;
     font-weight:bold;
     cursor:pointer;
+    margin-top:10px;
 }
-
-/* PAGES */
 
 .page{
     display:none;
@@ -370,35 +354,16 @@ body{
     display:block;
 }
 
-/* ADMIN */
-
-.admin-container{
-    padding:15px;
+.form-box, .invoice-box {
+    background: white;
+    border-radius: 25px;
+    padding: 20px;
+    margin: 15px auto;
+    width: 92%;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
 }
 
-.admin-room{
-    background:white;
-    border-radius:25px;
-    padding:20px;
-    margin-bottom:25px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.08);
-}
-
-.admin-room h3{
-    margin-bottom:15px;
-}
-
-input,textarea,select{
-    width:100%;
-    padding:13px;
-    margin:8px 0;
-    border-radius:14px;
-    border:1px solid #eee;
-    background:#fafafa;
-}
-
-/* CART */
-
+/* CART & ORDERS */
 .cart-item{
     background:white;
     margin:10px;
@@ -422,17 +387,15 @@ input,textarea,select{
     margin-top:5px;
 }
 
-/* PROMO */
-
-.promo-box,
-.note-box,
-.wheel-box{
-    width:92%;
-    margin:15px auto;
-    background:white;
-    padding:15px;
-    border-radius:20px;
-    box-shadow:0 5px 20px rgba(0,0,0,0.05);
+.delivery-box {
+    background: #fff3cd;
+    color: #856404;
+    padding: 12px;
+    border-radius: 14px;
+    margin: 10px auto;
+    width: 92%;
+    font-weight: bold;
+    text-align: center;
 }
 
 #cartTotal{
@@ -444,13 +407,49 @@ input,textarea,select{
 
 #orderBtn{
     width:90%;
-    margin:auto;
+    margin:10px auto;
     display:block;
     background:linear-gradient(45deg,#25d366,#128c7e);
     color:white;
 }
 
-/* ANIMATION */
+/* ADMIN ROOMS */
+.admin-container{
+    padding:15px;
+}
+
+.admin-room{
+    background:white;
+    border-radius:25px;
+    padding:20px;
+    margin-bottom:25px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+input,textarea,select{
+    width:100%;
+    padding:13px;
+    margin:8px 0;
+    border-radius:14px;
+    border:1px solid #eee;
+    background:#fafafa;
+}
+
+.order-card {
+    background: #f9f9f9;
+    border-right: 5px solid var(--green);
+    padding: 15px;
+    border-radius: 14px;
+    margin-bottom: 10px;
+}
+
+.user-card {
+    background: #f1f2f6;
+    border-right: 5px solid #2f3542;
+    padding: 10px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+}
 
 @keyframes fadeIn{
     from{opacity:0;}
@@ -463,595 +462,572 @@ input,textarea,select{
 <body>
 
 <div class="header">
-    <h1>ZM STORE</h1>
-    <select id="langSelect" onchange="changeLanguage(this.value)">
-        <option value="sorani" selected>کوردی (سۆرانی)</option>
-        <option value="badini">کوردی (بادینی)</option>
-        <option value="kurmanji">کوردی (کرمانجی)</option>
-        <option value="arabic">العربية</option>
-        <option value="english">English</option>
-        <option value="turkish">Türkçe</option>
-    </select>
+    <h1 onclick="toggleAdminSecretPage()">ZM STORE</h1>
+    <div class="header-controls">
+        <select id="langSelect" onchange="changeLanguage(this.value)">
+            <option value="sorani" selected>کوردی (سۆرانی)</option>
+        </select>
+    </div>
 </div>
 
 <div class="top-contact">
-<span id="txt-whatsapp">📞 WhatsApp :</span>
-<a href="https://wa.me/9647507131541">
-07507131541
-</a>
+    <span id="txt-whatsapp">📞 WhatsApp :</span>
+    <a href="https://wa.me/9647507131541">07507131541</a>
 </div>
 
 <div id="home" class="page active">
-
-<div class="search-box">
-<input type="text" id="searchInput"
-placeholder="گەران بۆ بەرهەم..."
-onkeyup="searchProducts()">
-</div>
-
-<div class="ads-slider" id="adSlider"></div>
-
-<div class="categories-container">
-    <div class="categories-scroll" id="categoriesTabs">
-        <button class="cat-tab active-tab" data-cat="all" onclick="switchCategory('all', this)">🔥 هەموو بەرهەمەکان</button>
-        <button class="cat-tab" data-cat="barber_chair" onclick="switchCategory('barber_chair', this)">💺 کورسی حەلاق</button>
-        <button class="cat-tab" data-cat="perfume" onclick="switchCategory('perfume', this)">✨ بەشی بۆن</button>
-        <button class="cat-tab" data-cat="shampoo" onclick="switchCategory('shampoo', this)">🧼 بەشی شامپۆ</button>
-        <button class="cat-tab" data-cat="men" onclick="switchCategory('men', this)">🧔 بەشی پیاوان</button>
-        <button class="cat-tab" data-cat="women" onclick="switchCategory('women', this)">👩 بەشی ئافرەتان</button>
-        <button class="cat-tab" data-cat="paint" onclick="switchCategory('paint', this)">🎨 بەشی سبوخ</button>
-        <button class="cat-tab" data-cat="cream" onclick="switchCategory('cream', this)">🧴 بەشی کرێم</button>
-        <button class="cat-tab" data-cat="other" onclick="switchCategory('other', this)">📦 بەرهەمەکانی تر</button>
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="گەران بۆ بەرهەم..." onkeyup="searchProducts()">
     </div>
-</div>
 
-<div id="allSec" class="category-section active-section">
-    <div class="category-title-box">
-        <h2 id="title-all">🔥 هەموو بەرهەمەکان</h2>
-        <button class="more-btn btn-more-main" onclick="alert('Welcome')">سەرەکی</button>
+    <div class="ads-slider" id="adSlider"></div>
+
+    <div class="categories-container">
+        <div class="categories-scroll" id="categoriesTabs">
+            <button class="cat-tab active-tab" data-cat="all" onclick="switchCategory('all', this)">🔥 هەموو بەرهەمەکان</button>
+            <button class="cat-tab" data-cat="barber_materials" onclick="switchCategory('barber_materials', this)">✂️ مەوادی حەڵاق</button>
+            <button class="cat-tab" data-cat="barber_chair" onclick="switchCategory('barber_chair', this)">💺 کورسی حەلاق</button>
+            <button class="cat-tab" data-cat="perfume" onclick="switchCategory('perfume', this)">✨ بەشی بۆن</button>
+            <button class="cat-tab" data-cat="shampoo" onclick="switchCategory('shampoo', this)">🧼 بەشی شامپۆ</button>
+            <button class="cat-tab" data-cat="men" onclick="switchCategory('men', this)">🧔 بەشی پیاوان</button>
+            <button class="cat-tab" data-cat="women" onclick="switchCategory('women', this)">👩 بەشی ئافرەتان</button>
+            <button class="cat-tab" data-cat="paint" onclick="switchCategory('paint', this)">🎨 بەشی سبوخ</button>
+            <button class="cat-tab" data-cat="cream" onclick="switchCategory('cream', this)">🧴 بەشی کرێم</button>
+            <button class="cat-tab" data-cat="other" onclick="switchCategory('other', this)">📦 بەرهەمەکانی تر</button>
+        </div>
+        
+        <div class="sub-categories" id="barberSubRooms">
+            <button class="sub-tab active-sub" onclick="filterBarberRoom('all', this)">گشتی</button>
+            <button class="sub-tab" onclick="filterBarberRoom('موس', this)">موس 🪒</button>
+            <button class="sub-tab" onclick="filterBarberRoom('خاولی', this)">خاولی 🧣</button>
+            <button class="sub-tab" onclick="filterBarberRoom('مەوادی سپرا', this)">سپرا 💨</button>
+            <button class="sub-tab" onclick="filterBarberRoom('واکس', this)">واکس 🧴</button>
+            <button class="sub-tab" onclick="filterBarberRoom('شانە', this)">شانە 💈</button>
+        </div>
     </div>
-    <div id="allGrid" class="grid"></div>
-</div>
 
-<div id="barber_chairSec" class="category-section">
-    <div class="category-title-box">
-        <h2 id="title-barber">💺 بەشی کورسی حەلاق</h2>
-        <button class="more-btn btn-more-info" onclick="showInfoAlert()">زیاتر بزانە</button>
-    </div>
-    <div id="barber_chairGrid" class="grid"></div>
-</div>
-
-<div id="perfumeSec" class="category-section">
-    <div class="category-title-box">
-        <h2 id="title-perfume">✨ بەشی بۆنەکان</h2>
-        <button class="more-btn btn-more-info" onclick="showInfoAlert()">زیاتر بزانە</button>
-    </div>
-    <div id="perfumeGrid" class="grid"></div>
-</div>
-
-<div id="shampooSec" class="category-section">
-    <div class="category-title-box">
-        <h2 id="title-shampoo">🧼 بەشی شامپۆکان</h2>
-        <button class="more-btn btn-more-info" onclick="showInfoAlert()">زیاتر بزانە</button>
-    </div>
-    <div id="shampooGrid" class="grid"></div>
-</div>
-
-<div id="menSec" class="category-section">
-    <div class="category-title-box">
-        <h2 id="title-men">🧔 بەشی تایبەت بە پیاوان</h2>
-        <button class="more-btn btn-more-info" onclick="showInfoAlert()">زیاتر بزانە</button>
-    </div>
-    <div id="menGrid" class="grid"></div>
-</div>
-
-<div id="womenSec" class="category-section">
-    <div class="category-title-box">
-        <h2 id="title-women">👩 بەشی تایبەت بە ئافرەتان</h2>
-        <button class="more-btn btn-more-info" onclick="showInfoAlert()">زیاتر بزانە</button>
-    </div>
-    <div id="womenGrid" class="grid"></div>
-</div>
-
-<div id="paintSec" class="category-section">
-    <div class="category-title-box">
-        <h2 id="title-paint">🎨 بەشی سبوخ</h2>
-        <button class="more-btn btn-more-info" onclick="showInfoAlert()">زیاتر بزانە</button>
-    </div>
-    <div id="paintGrid" class="grid"></div>
-</div>
-
-<div id="creamSec" class="category-section">
-    <div class="category-title-box">
-        <h2 id="title-cream">🧴 بەشی کرێمەکان</h2>
-        <button class="more-btn btn-more-info" onclick="showInfoAlert()">زیاتر بزانە</button>
-    </div>
-    <div id="creamGrid" class="grid"></div>
-</div>
-
-<div id="otherSec" class="category-section">
-    <div class="category-title-box">
-        <h2>📦 بەرهەمەکانی تر</h2>
-        <button class="more-btn btn-more-info" onclick="showInfoAlert()">زیاتر بزانە</button>
-    </div>
-    <div id="otherGrid" class="grid"></div>
-</div>
-
+    <div id="allSec" class="category-section active-section"><div id="allGrid" class="grid"></div></div>
+    <div id="barber_materialsSec" class="category-section"><div id="barber_materialsGrid" class="grid"></div></div>
+    <div id="barber_chairSec" class="category-section"><div id="barber_chairGrid" class="grid"></div></div>
+    <div id="perfumeSec" class="category-section"><div id="perfumeGrid" class="grid"></div></div>
+    <div id="shampooSec" class="category-section"><div id="shampooGrid" class="grid"></div></div>
+    <div id="menSec" class="category-section"><div id="menGrid" class="grid"></div></div>
+    <div id="womenSec" class="category-section"><div id="womenGrid" class="grid"></div></div>
+    <div id="paintSec" class="category-section"><div id="paintGrid" class="grid"></div></div>
+    <div id="creamSec" class="category-section"><div id="creamGrid" class="grid"></div></div>
+    <div id="otherSec" class="category-section"><div id="otherGrid" class="grid"></div></div>
 </div>
 
 <div id="cartPage" class="page">
-
-<h2 style="text-align:center;margin-top:30px;" id="txt-cart-title">
-سەبەتەی کڕین 🛒
-</h2>
-
-<div id="cartList"></div>
-
-<div class="promo-box">
-
-<h3 id="txt-promo-title">🎁 پرۆمۆ کۆد</h3>
-
-<input type="text" id="promoCode" placeholder="پرۆمۆ کۆد">
-
-<button class="btn-main" id="btn-promo" onclick="applyPromo()">
-چالاککردنی کۆد
-</button>
-
+    <h2 style="text-align:center;margin-top:30px;">سەبەتەی کڕین 🛒</h2>
+    <div id="cartList"></div>
+    <div class="delivery-box">🚚 تێچووی گەیاندن: ٣,٠٠٠ دینار جێگیرە</div>
+    
+    <div class="form-box">
+        <h3>📍 زانیارییەکانی گەیاندن</h3>
+        <input type="text" id="custName" placeholder="ناوی تەواو">
+        <input type="text" id="custPhone" placeholder="ژمارەی مۆبایل">
+        <input type="text" id="custAddress" placeholder="ناونیشان (شار / گەڕەک)">
+        <textarea id="customerNote" placeholder="تێبینی بۆ داواکاری..."></textarea>
+    </div>
+    
+    <div id="cartTotal"></div>
+    <button class="btn-main" id="orderBtn" onclick="submitOrder()">تەواوکردنی داواکاری و ناردن ڕاستەوخۆ ✅</button>
 </div>
 
-<div class="note-box">
+<div id="profilePage" class="page">
+    <div id="authArea" class="form-box">
+        <h2 style="text-align:center; margin-bottom:15px;">چوونەژوورەوە / خۆتۆمارکردن</h2>
+        <input type="text" id="authName" placeholder="ناوی تەواو (بۆ کاتی خۆتۆمارکردن)">
+        <input type="email" id="authEmail" placeholder="ئیمێڵ">
+        <input type="password" id="authPassword" placeholder="پاسۆرد">
+        <button class="btn-main" onclick="loginUser()" style="background: #000; color: var(--gold);">چوونە ژوورەوە 🔑</button>
+        <button class="btn-main" onclick="registerUser()" style="background: #555; color: #fff;">دروستکردنی پرۆفایلی نوێ 📝</button>
+    </div>
 
-<h3 style="text-align:center;" id="txt-note-title">
-📝 تێبینی
-</h3>
-
-<textarea id="customerNote" placeholder="تێبینی بۆ داواکاری..."></textarea>
-
-</div>
-
-<div id="cartTotal"></div>
-
-<button class="btn-main" id="orderBtn"
-onclick="sendToWhatsApp()" style="display:none;">
-ناردنی داواکاری ✅
-</button>
-
+    <div id="profileArea" style="display:none;">
+        <div class="form-box" style="text-align:center; background: linear-gradient(145deg, #ffffff, #fbfbfb); border:1px solid #ddd;">
+            <h2 id="welcomeUser" style="color: #000; margin-bottom:5px;">بۆند بەخێربێیت</h2>
+            <p id="userEmailTxt" style="color:#666; font-size:14px; margin-bottom:15px;"></p>
+            <button class="btn-main" onclick="logoutUser()" style="background:var(--red); color:#fff; width:auto; padding:8px 20px; font-size:12px; margin:0 auto;">چوونە دەرەوە 🚪</button>
+        </div>
+        <h3 style="text-align:center; margin-top:20px;">🧾 وەسل و داواکارییەکانی من</h3>
+        <div id="myInvoicesList"></div>
+    </div>
 </div>
 
 <div id="admin" class="page">
+    <div id="loginArea" style="padding:40px;text-align:center;">
+        <input type="password" id="adminPass" placeholder="پاسۆردی ئەدمین">
+        <button class="btn-main" onclick="checkLogin()">چوونە ژوورەوە</button>
+    </div>
 
-<div id="loginArea" style="padding:40px;text-align:center;">
+    <div id="adminArea" style="display:none;" class="admin-container">
+        <h2 style="text-align:center; margin-bottom:15px; color:var(--gold);">💻 ژووری گشتی ئەدمین</h2>
+        
+        <div class="admin-room" style="background: #eef9f1; border: 2px solid var(--green);">
+            <h3 style="color: #1e7e34;">📥 داواکارییە هاتووەکان</h3>
+            <div id="adminOrdersList" style="margin-top:15px;">چاوەڕوانی داواکاری نوێیە...</div>
+        </div>
 
-<input type="password" id="adminPass" placeholder="پاسۆردی ئەدمین">
+        <div class="admin-room" style="background: #f8f9fa; border: 1px solid #ccc;">
+            <h3 style="color: #2f3542;">👥 بەکارهێنەرە تۆمارکراوەکان</h3>
+            <div id="adminUsersList" style="margin-top:15px;">هیچ بەکارهێنەرێک نییە</div>
+        </div>
 
-<button class="btn-main" id="btn-login" onclick="checkLogin()">
-چوونە ژوورەوە
-</button>
+        <div class="admin-room">
+            <h3>📦 زیادکردنی بەرهەم</h3>
+            <input type="hidden" id="pKey">
+            <input type="text" id="pName" placeholder="ناوی بەرهەم">
+            <input type="number" id="pPrice" placeholder="نرخ">
+            <textarea id="pDesc" placeholder="وەسفی بەرهەم"></textarea>
+            <input type="text" id="pImg" placeholder="لینکی وێنە">
+            
+            <select id="pCategory" onchange="toggleAdminBarberRooms(this.value)">
+                <option value="barber_materials">مەوادی حەڵاق ✂️</option>
+                <option value="barber_chair">کورسی حەلاق 💺</option>
+                <option value="perfume">بۆن</option>
+                <option value="shampoo">شامپۆ</option>
+                <option value="men">پیاوان</option>
+                <option value="women">ئافرەتان 👩</option>
+                <option value="paint">سبوخ 🎨</option>
+                <option value="cream">کرێم</option>
+                <option value="other">گشتی</option>
+            </select>
 
-</div>
+            <select id="pBarberRoom" style="display:block;">
+                <option value="گشتی">ژووری گشتی حەڵاق</option>
+                <option value="موس">موس 🪒</option>
+                <option value="خاولی">خاولی 🧣</option>
+                <option value="مەوادی سپرا">سپرا 💨</option>
+                <option value="واکس">واکس 🧴</option>
+                <option value="شانە">شانە 💈</option>
+            </select>
 
-<div id="adminArea" style="display:none;"
-class="admin-container">
+            <select id="pType">
+                <option value="normal">ئاسایی</option>
+                <option value="sale">داشکاندن 🔥</option>
+                <option value="guarantee">گرێنتی ✅</option>
+            </select>
+            <button class="btn-main" id="saveBtn" onclick="saveProduct()">بڵاوکردنەوە</button>
+        </div>
 
-<h2 id="roomTitle" style="text-align:center; margin-bottom:15px; color:var(--gold);">ژووری ئەدمین</h2>
+        <div class="admin-room">
+            <h3>🖼️ ڕیکلامەکان</h3>
+            <input type="text" id="adImg" placeholder="لینکی وێنە">
+            <button class="btn-main" onclick="addAd()">زیادکردنی ڕیکلام</button>
+            <div id="adminAdList"></div>
+        </div>
 
-<div class="admin-room">
-
-<h3 id="txt-visitor-title">👀 ئاماری سەردانکەر</h3>
-
-<div id="visitorCount"
-style="
-font-size:35px;
-text-align:center;
-font-weight:bold;
-color:#2e86de;
-">
-0
-</div>
-
-</div>
-
-<div class="admin-room">
-
-<h3 id="formActionTitle">📦 زیادکردنی بەرهەم</h3>
-
-<input type="hidden" id="pKey">
-
-<input type="text" id="pName" placeholder="ناوی بەرهەم">
-
-<input type="number" id="pPrice" placeholder="نرخ">
-
-<textarea id="pDesc" placeholder="وەسفی بەرهەم"></textarea>
-
-<input type="text" id="pImg" placeholder="لینکی وێنە">
-
-<select id="pCategory">
-<option value="barber_chair" id="opt-chair">کورسی حەلاق 💺</option>
-<option value="perfume" id="opt-perfume">بۆن</option>
-<option value="shampoo" id="opt-shampoo">شامپۆ</option>
-<option value="men" id="opt-men">پیاوان</option>
-<option value="women" id="opt-women">ئافرەتان 👩</option>
-<option value="paint" id="opt-paint">سبوخ 🎨</option>
-<option value="cream" id="opt-cream">کرێم</option>
-<option value="other" id="opt-other">زیاتر بزانە (گشتی)</option>
-</select>
-
-<select id="pType">
-<option value="normal" id="opt-normal">ئاسایی</option>
-<option value="sale" id="opt-sale">داشکاندن 🔥</option>
-<option value="guarantee" id="opt-guarantee">گرێنتی ✅</option>
-</select>
-
-<button class="btn-main" id="saveBtn" onclick="saveProduct()">
-بڵاوکردنەوە
-</button>
-
-</div>
-
-<div class="admin-room">
-
-<h3 id="txt-ads-title">🖼️ ڕیکلامەکان</h3>
-
-<input type="text" id="adImg" placeholder="لینکی وێنە">
-
-<button class="btn-main" id="btn-add-ad" onclick="addAd()">
-زیادکردنی ڕیکلام
-</button>
-
-<div id="adminAdList"></div>
-
-</div>
-
-<div class="admin-room">
-
-<h3 id="txt-manage-title">📌 بەڕێوەبردنی بەرهەمەکان</h3>
-
-<div id="adminProductList"></div>
-
-</div>
-
-</div>
-
+        <div class="admin-room">
+            <h3>📌 بەڕێوەبردنی بەرهەمەکان</h3>
+            <div id="adminProductList"></div>
+        </div>
+    </div>
 </div>
 
 <div class="nav-bottom">
-
-<div class="nav-btn active" onclick="showPage('home', this)" id="nav-home">
-🏠<br>سەرەکی
-</div>
-
-<div class="nav-btn" onclick="showPage('cartPage', this)" id="nav-cart">
-🛒<br>
-سەبەتە
-<span id="cartCount">0</span>
-</div>
-
-<div class="nav-btn" onclick="showPage('admin', this)" id="nav-admin">
-👤<br>ئەدمین
-</div>
-
+    <div class="nav-btn active" onclick="showPage('home', this)" id="nav-home">🏠<br>سەرەکی</div>
+    <div class="nav-btn" onclick="showPage('cartPage', this)" id="nav-cart">🛒<br>سەبەتە <span id="cartCount">0</span></div>
+    <div class="nav-btn" onclick="showPage('profilePage', this)" id="nav-profile">👤<br>پرۆفایل</div>
 </div>
 
 <script>
 
-/* DATABASE LANGUAGES DICTIONARY */
-const translations = {
-    sorani: {
-        dir: "rtl", lang: "ku", search: "گەران بۆ بەرهەم...", all: "🔥 هەموو بەرهەمەکان", barber: "💺 کورسی حەلاق", perfume: "✨ بەشی بۆن", shampoo: "🧼 بەشی شامپۆ", men: "🧔 بەشی پیاوان", women: "👩 بەشی ئافرەتان", paint: "🎨 بەشی سبوخ", cream: "🧴 بەشی کرێم", other: "📦 بەرهەمەکانی تر",
-        main: "سەرەکی", more: "زیاتر بزانە", cart: "سەبەتەی کڕین 🛒", promo: "🎁 پرۆمۆ کۆد", activate: "چالاککردنی کۆد", note: "📝 تێبینی", notePlaceholder: "تێبینی بۆ داواکاری...", total: "کۆی گشتی : ", send: "ناردنی داواکاری ✅",
-        admin: "👤 ئەدمین", password: "پاسۆردی ئەدمین", login: "چوونە ژوورەوە", visitor: "👀 ئاماری سەردانکەر", addProduct: "📦 زیادکردنی بەرهەم", pName: "ناوی بەرهەم", pPrice: "نرخ", pDesc: "وەسفی بەرهەم", pImg: "لینکی وێنە", publish: "بڵاوکردنەوە", ads: "🖼️ ڕیکلامەکان", manage: "📌 بەڕێوەبردنی بەرهەمەکان", addAd: "زیادکردنی ڕیکلام", edit: "دەسکاری", delete: "سڕینەوە", normal: "ئاسایی", sale: "داشکاندن 🔥", guarantee: "گرێنتی ✅", currency: "د.ع", addCartBtn: "زیادکردن بۆ سەبەتە 🛒"
-    },
-    badini: {
-        dir: "rtl", lang: "ku", search: "گەڕیان بۆ بەرهەمی...", all: "🔥 هەمی بەرهەم", barber: "💺 پشکا کورسیێن حەلاقیێ", perfume: "✨ پشکا بێهنۆکا", shampoo: "🧼 پشکا شامپۆیا", men: "🧔 پشکا زەلاما", women: "👩 پشکا ئافرەتا", paint: "🎨 پشکا بۆیاغێ", cream: "🧴 پشکا کریما", other: "📦 بەرهەمێن دی",
-        main: "سەرەکی", more: "پتر بزانە", cart: "سەبەتا کڕینێ 🛒", promo: "🎁 پرۆمۆ کۆد", activate: "چالاککرنا کۆدی", note: "📝 تێبینی", notePlaceholder: "تێبینی بۆ داواکاریێ...", total: "کۆما گشتی : ", send: "ناردنا داواکاریێ ✅",
-        admin: "👤 ئەدمین", password: "پاسۆردێ ئەدمینی", login: "چوونە ژوورێ", visitor: "👀 ئامارا سەرەدانکەرا", addProduct: "📦 زێدەکرنا بەرهەمی", pName: "ناڤێ بەرهەمی", pPrice: "بها", pDesc: "وەسفێ بەرهەمی", pImg: "لینكا وێنەی", publish: "بەلاڤکرن", ads: "🖼️ ڕیکلام", manage: "📌 بڕێڤەبرنا بەرهەما", addAd: "زێدەکرنا ڕیکلامێ", edit: "دەستکاری", delete: "ژێبرن", normal: "ئاسایی", sale: "داشکانن 🔥", guarantee: "گرەنتی ✅", currency: "د.ع", addCartBtn: "زێدەکرن بۆ سەبەتێ 🛒"
-    },
-    kurmanji: {
-        dir: "rtl", lang: "ku", search: "لێگەڕیانا بەرهەمان...", all: "🔥 Hemû Berhem", barber: "💺 Beşa Kursiyên Sersofiyê", perfume: "✨ Beşa Bîhnxweşiyê", shampoo: "🧼 Beşa Şampoyan", men: "🧔 Beşa Mêran", women: "👩 Beşa Jinan", paint: "🎨 Beşa Boyaxê", cream: "🧴 Beşa Kremê", other: "📦 Berhemên Din",
-        main: "Serke", more: "Zêdetir Bizanibe", cart: "Sepeta Kirînê 🛒", promo: "🎁 Promo Kod", activate: "Kodê Çalak Bike", note: "📝 Têbînî", notePlaceholder: "Têbînî ji bo fermanê...", total: "Giştî : ", send: "Fermanê Bişîne ✅",
-        admin: "👤 Admin", password: "Şîfreya Admin", login: "Têkeve", visitor: "👀 Amara Serdanerana", addProduct: "📦 Berhem Zêde Bike", pName: "Navê Berhemê", pPrice: "Biha", pDesc: "Daxuyaniya Berhemê", pImg: "Lînka Wêneyê", publish: "Belav Bike", ads: "🖼️ Reklam", manage: "📌 Birêvebirina Berhemê", addAd: "Reklam Zêde Bike", edit: "Guhertin", delete: "Rakin", normal: "Asayî", sale: "Daxistin 🔥", guarantee: "Garantî ✅", currency: "IQD", addCartBtn: "Zêde Bike Sepetê 🛒"
-    },
-    arabic: {
-        dir: "rtl", lang: "ar", search: "البحث عن منتج...", all: "🔥 جميع المنتجات", barber: "💺 قسم كراسي الحلاقة", perfume: "✨ قسم العطور", shampoo: "🧼 قسم الشامبو", men: "🧔 قسم الرجال", women: "👩 قسم النساء", paint: "🎨 قسم الأصباغ", cream: "🧴 قسم الكريمات", other: "📦 منتجات أخرى",
-        main: "الرئيسية", more: "معرفة المزيد", cart: "سلة التسوق 🛒", promo: "🎁 كود الخصم", activate: "تفعيل الكود", note: "📝 ملاحظة", notePlaceholder: "ملاحظات حول الطلب...", total: "المجموع الكلي : ", send: "إرسال الطلب ✅",
-        admin: "👤 الأدمن", password: "رمز الأدمن", login: "تسجيل الدخول", visitor: "👀 عدد الزوار", addProduct: "📦 إضافة منتج", pName: "اسم المنتج", pPrice: "السعر", pDesc: "وصف المنتج", pImg: "رابط الصورة", publish: "نشر المنتج", ads: "🖼️ الإعلانات", manage: "📌 إدارة المنتجات", addAd: "إضافة إعلان", edit: "تعديل", delete: "حذف", normal: "عادي", sale: "تخفيض 🔥", guarantee: "ضمان ✅", currency: "د.ع", addCartBtn: "إضافة إلى السلة 🛒"
-    },
-    english: {
-        dir: "ltr", lang: "en", search: "Search products...", all: "🔥 All Products", barber: "💺 Barber Chairs", perfume: "✨ Perfumes", shampoo: "🧼 Shampoos", men: "🧔 Men Section", women: "👩 Women Section", paint: "🎨 Paints Section", cream: "🧴 Creams Section", other: "📦 Other Products",
-        main: "Home", more: "Learn More", cart: "Shopping Cart 🛒", promo: "🎁 Promo Code", activate: "Activate Code", note: "📝 Note", notePlaceholder: "Order notes...", total: "Total Amount: ", send: "Send Order ✅",
-        admin: "👤 Admin", password: "Admin Password", login: "Login", visitor: "👀 Visitor Statistics", addProduct: "📦 Add Product", pName: "Product Name", pPrice: "Price", pDesc: "Description", pImg: "Image Link", publish: "Publish", ads: "🖼️ Ads Management", manage: "📌 Manage Products", addAd: "Add Ad", edit: "Edit", delete: "Delete", normal: "Normal", sale: "Sale 🔥", guarantee: "Guarantee ✅", currency: "IQD", addCartBtn: "Add to Cart 🛒"
-    },
-    turkish: {
-        dir: "ltr", lang: "tr", search: "Ürün ara...", all: "🔥 Tüm Ürünler", barber: "💺 Berber Koltukları", perfume: "✨ Parfüm Bölümü", shampoo: "🧼 Şampuan Bölümü", men: "🧔 Erkek Bölümü", women: "👩 Kadın Bölümü", paint: "🎨 Boya Bölümü", cream: "🧴 Krem Bölümü", other: "📦 Diğer Ürünler",
-        main: "Anasayfa", more: "Daha Fazla", cart: "Alışveriş Sepeti 🛒", promo: "🎁 Promosyon Kodu", activate: "Kodu Aktif Et", note: "📝 Not", notePlaceholder: "Sipariş notu...", total: "Toplam Tutar: ", send: "Siparişi Gönder ✅",
-        admin: "👤 Admin", password: "Admin Şifresi", login: "Giriş Yap", visitor: "👀 Ziyaretçi İstatistikleri", addProduct: "📦 Ürün Ekle", pName: "Ürün Adı", pPrice: "Fiyat", pDesc: "Ürün Açıklaması", pImg: "Resim Linki", publish: "Yayınla", ads: "🖼️ Reklamlar", manage: "📌 Ürünleri Yönet", addAd: "Reklam Ekle", edit: "Düzenle", delete: "Sil", normal: "Normal", sale: "İndirim 🔥", guarantee: "Garanti ✅", currency: "TL", addCartBtn: "Sepete Ekle 🛒"
-    }
-};
-
-let currentLang = "sorani";
-
-function changeLanguage(lang) {
-    currentLang = lang;
-    const t = translations[lang];
-    
-    // Change HTML layout direction & lang
-    document.documentElement.dir = t.dir;
-    document.documentElement.lang = t.lang;
-    
-    // Manage header elements flexibility on direction change
-    const headerEl = document.querySelector('.header');
-    if(t.dir === "ltr") {
-        headerEl.style.flexDirection = "row";
-    } else {
-        headerEl.style.flexDirection = "row";
-    }
-    
-    // Placeholders
-    document.getElementById("searchInput").placeholder = t.search;
-    document.getElementById("promoCode").placeholder = t.promo;
-    document.getElementById("customerNote").placeholder = t.notePlaceholder;
-    document.getElementById("pName").placeholder = t.pName;
-    document.getElementById("pPrice").placeholder = t.pPrice;
-    document.getElementById("pDesc").placeholder = t.pDesc;
-    document.getElementById("pImg").placeholder = t.pImg;
-    document.getElementById("adImg").placeholder = t.pImg;
-    document.getElementById("adminPass").placeholder = t.password;
-
-    // Text Contents
-    document.getElementById("txt-whatsapp").innerText = "📞 WhatsApp :";
-    document.getElementById("title-all").innerText = t.all;
-    document.getElementById("title-barber").innerText = t.barber;
-    document.getElementById("title-perfume").innerText = t.perfume;
-    document.getElementById("title-shampoo").innerText = t.shampoo;
-    document.getElementById("title-men").innerText = t.men;
-    document.getElementById("title-women").innerText = t.women;
-    document.getElementById("title-paint").innerText = t.paint;
-    document.getElementById("title-cream").innerText = t.cream;
-    
-    document.getElementById("txt-cart-title").innerText = t.cart;
-    document.getElementById("txt-promo-title").innerText = t.promo;
-    document.getElementById("btn-promo").innerText = t.activate;
-    document.getElementById("txt-note-title").innerText = t.note;
-    document.getElementById("orderBtn").innerText = t.send;
-    
-    document.getElementById("btn-login").innerText = t.login;
-    document.getElementById("txt-visitor-title").innerText = t.visitor;
-    document.getElementById("formActionTitle").innerText = t.addProduct;
-    document.getElementById("saveBtn").innerText = t.publish;
-    document.getElementById("txt-ads-title").innerText = t.ads;
-    document.getElementById("btn-add-ad").innerText = t.addAd;
-    document.getElementById("txt-manage-title").innerText = t.manage;
-
-    // Admin Options
-    document.getElementById("opt-chair").innerText = t.barber;
-    document.getElementById("opt-perfume").innerText = t.perfume;
-    document.getElementById("opt-shampoo").innerText = t.shampoo;
-    document.getElementById("opt-men").innerText = t.men;
-    document.getElementById("opt-women").innerText = t.women;
-    document.getElementById("opt-paint").innerText = t.paint;
-    document.getElementById("opt-cream").innerText = t.cream;
-    document.getElementById("opt-other").innerText = t.other;
-    
-    document.getElementById("opt-normal").innerText = t.normal;
-    document.getElementById("opt-sale").innerText = t.sale;
-    document.getElementById("opt-guarantee").innerText = t.guarantee;
-
-    // Navigation & Buttons
-    document.getElementById("nav-home").innerHTML = `🏠<br>${t.main}`;
-    document.getElementById("nav-cart").innerHTML = `🛒<br>${t.cart.split(' ')[0]} <span id="cartCount">${cart.length}</span>`;
-    document.getElementById("nav-admin").innerHTML = `👤<br>${t.admin.split(' ')[1] || 'Admin'}`;
-    
-    document.querySelectorAll(".btn-more-main").forEach(b => b.innerText = t.main);
-    document.querySelectorAll(".btn-more-info").forEach(b => b.innerText = t.more);
-
-    // Update categories tabs text
-    const tabs = document.getElementById("categoriesTabs").children;
-    tabs[0].innerText = t.all;
-    tabs[1].innerText = t.barber;
-    tabs[2].innerText = t.perfume;
-    tabs[3].innerText = t.shampoo;
-    tabs[4].innerText = t.men;
-    tabs[5].innerText = t.women;
-    tabs[6].innerText = t.paint;
-    tabs[7].innerText = t.cream;
-    tabs[8].innerText = t.other;
-
-    // Reload UI Components to reflect language change
-    db.ref('products').once('value', () => {}); 
-    updateCartUI();
-}
-
-function showInfoAlert() {
-    const t = translations[currentLang];
-    alert(t.more);
-}
-
 /* FIREBASE CONFIG */
 const firebaseConfig = {
-apiKey: "AIzaSyCISwp1LFeCxcHvJigQblZb6BSTi",
-databaseURL: "https://zm-parfum-default-rtdb.firebaseio.com",
-projectId: "zm-parfum",
+    apiKey: "AIzaSyCISwp1LFeCxcHvJigQblZb6BSTi",
+    databaseURL: "https://zm-parfum-default-rtdb.firebaseio.com",
+    projectId: "zm-parfum",
 };
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
-let currentRoom = "general";
 
-/* VISITOR COUNT */
-let visitorRef = db.ref("visitors");
-visitorRef.transaction(current=>{
-return (current || 0)+1;
-});
-visitorRef.on('value',snap=>{
-let el=document.getElementById("visitorCount");
-if(el){el.innerText=snap.val() || 0;}
-});
+let currentUser = null;
+let selectedBarberRoom = "all";
+const deliveryFee = 3000;
+let cart = [];
 
-/* FORMAT PRICE */
-function formatPrice(num){
-return Number(num).toLocaleString();
+// Clean Email strings to prevent Firebase path errors without using complex encoding
+function cleanEmailKey(email) {
+    return email.toLowerCase().replace(/[^a-zA-Z0-9]/g, "_");
 }
 
-/* LAUNCH PAGES */
-function showPage(id,btn){
-document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-document.getElementById(id).classList.add('active');
-btn.classList.add('active');
-if(id==="cartPage"){updateCartUI();}
+/* SECRET ADMIN TOGGLE */
+function toggleAdminSecretPage() {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('admin').classList.add('active');
 }
 
-/* SWITCH CATEGORIES */
+/* GUARANTEED AUTH SYSTEM */
+const savedUser = localStorage.getItem("zm_current_user");
+if(savedUser) {
+    currentUser = JSON.parse(savedUser);
+    showUserDashboard();
+}
+
+function registerUser() {
+    const name = document.getElementById('authName').value.trim();
+    const email = document.getElementById('authEmail').value.trim();
+    const pass = document.getElementById('authPassword').value.trim();
+    
+    if(!name || !email || !pass) { alert("تکایە هەموو خانەکان پڕبکەرەوە"); return; }
+    
+    const userKey = cleanEmailKey(email);
+    
+    db.ref('users/' + userKey).once('value', snap => {
+        if(snap.exists()) {
+            alert("ئەم ئیمێڵە پێشتر تۆمارکراوە!");
+        } else {
+            const userData = { name: name, email: email, pass: pass };
+            db.ref('users/' + userKey).set(userData, (err) => {
+                if(!err) {
+                    alert("پڕۆفایلەکەت بە سەرکەوتوویی دروستکرا 🎉");
+                    currentUser = userData;
+                    localStorage.setItem("zm_current_user", JSON.stringify(userData));
+                    showUserDashboard();
+                } else {
+                    alert("کێشەیەک هەیە، تکایە دووبارە تاقیکەرەوە");
+                }
+            });
+        }
+    });
+}
+
+function loginUser() {
+    const email = document.getElementById('authEmail').value.trim();
+    const pass = document.getElementById('authPassword').value.trim();
+    
+    if(!email || !pass) { alert("تکایە ئیمێڵ و پاسۆرد بنووسە"); return; }
+    
+    const userKey = cleanEmailKey(email);
+    
+    db.ref('users/' + userKey).once('value', snap => {
+        if(snap.exists()) {
+            const userData = snap.val();
+            if(userData.pass === pass) {
+                alert("بەسەرکەوتوویی چوویتە ژوورەوە 🔑");
+                currentUser = userData;
+                localStorage.setItem("zm_current_user", JSON.stringify(userData));
+                showUserDashboard();
+            } else {
+                alert("پاسۆردەکەت هەڵەیە! ❌");
+            }
+        } else {
+            alert("ئەم ئیمێڵە بوونی نییە!");
+        }
+    });
+}
+
+function showUserDashboard() {
+    document.getElementById('authArea').style.display = 'none';
+    document.getElementById('profileArea').style.display = 'block';
+    // Displays user name dynamically
+    document.getElementById('welcomeUser').innerText = `بەکارهێنەر: ${currentUser.name} 🧔`;
+    document.getElementById('userEmailTxt').innerText = currentUser.email;
+    fetchMyInvoices(cleanEmailKey(currentUser.email));
+}
+
+function logoutUser() {
+    localStorage.removeItem("zm_current_user");
+    currentUser = null;
+    document.getElementById('authArea').style.display = 'block';
+    document.getElementById('profileArea').style.display = 'none';
+    alert("چوویتە دەرەوە.");
+}
+
+function formatPrice(num) { return Number(num).toLocaleString(); }
+
+function showPage(id, btn) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+    if (id === "cartPage") { updateCartUI(); }
+}
+
 function switchCategory(catId, btnElement) {
     document.querySelectorAll('.cat-tab').forEach(tab => tab.classList.remove('active-tab'));
-    if(btnElement) btnElement.classList.add('active-tab');
+    if (btnElement) btnElement.classList.add('active-tab');
 
     document.querySelectorAll('.category-section').forEach(sec => sec.classList.remove('active-section'));
     const targetSec = document.getElementById(catId + 'Sec');
-    if(targetSec) targetSec.classList.add('active-section');
-}
-
-/* SEARCH PRODUCTS */
-function searchProducts(){
-let input=document.getElementById("searchInput").value.toLowerCase();
-let cards=document.querySelectorAll(".item-card");
-cards.forEach(card=>{
-let text=card.innerText.toLowerCase();
-if(text.includes(input)){card.style.display="block";}else{card.style.display="none";}
-});
-}
-
-/* FETCH PRODUCTS FROM FIREBASE */
-db.ref('products').on('value',snap=>{
-
-const allGrid=document.getElementById('allGrid');
-const barber_chairGrid=document.getElementById('barber_chairGrid');
-const perfumeGrid=document.getElementById('perfumeGrid');
-const shampooGrid=document.getElementById('shampooGrid');
-const menGrid=document.getElementById('menGrid');
-const womenGrid=document.getElementById('womenGrid');
-const paintGrid=document.getElementById('paintGrid');
-const creamGrid=document.getElementById('creamGrid');
-const otherGrid=document.getElementById('otherGrid');
-const adminList=document.getElementById('adminProductList');
-
-allGrid.innerHTML='';
-if(barber_chairGrid) barber_chairGrid.innerHTML='';
-perfumeGrid.innerHTML='';
-shampooGrid.innerHTML='';
-menGrid.innerHTML='';
-womenGrid.innerHTML='';
-paintGrid.innerHTML='';
-creamGrid.innerHTML='';
-otherGrid.innerHTML='';
-adminList.innerHTML='';
-
-const data=snap.val();
-const t = translations[currentLang];
-
-if(data){
-Object.keys(data).reverse().forEach(key=>{
-const p=data[key];
-
-let productHTML = `
-<div class="item-card">
-${p.type==='sale' ? `<div class="badge-sale">${t.sale}</div>` : ''}
-${p.type==='guarantee' ? `<div class="badge-guarantee">${t.guarantee}</div>` : ''}
-<div class="img-box"><img src="${p.img}"></div>
-<div class="info">
-<b>${p.name}</b>
-<div class="desc-text">${p.desc || ''}</div>
-<div class="price">${formatPrice(p.price)} ${t.currency}</div>
-<button class="add-cart-btn" onclick="addToCart('${p.name}','${p.price}','${p.img}')">${t.addCartBtn}</button>
-</div>
-</div>
-`;
-
-allGrid.innerHTML += productHTML;
-
-if(p.category === 'barber_chair') { if(barber_chairGrid) barber_chairGrid.innerHTML += productHTML; }
-else if(p.category === 'perfume') perfumeGrid.innerHTML += productHTML;
-else if(p.category === 'shampoo') shampooGrid.innerHTML += productHTML;
-else if(p.category === 'men') menGrid.innerHTML += productHTML;
-else if(p.category === 'women') womenGrid.innerHTML += productHTML;
-else if(p.category === 'paint') paintGrid.innerHTML += productHTML;
-else if(p.category === 'cream') creamGrid.innerHTML += productHTML;
-else otherGrid.innerHTML += productHTML;
-
-if(currentRoom === "general" || p.room === currentRoom) {
-    adminList.innerHTML += `
-    <div style="display:flex; justify-content:space-between; align-items:center; padding:10px; border-bottom:1px solid #eee;">
-    <span>${p.name} <small style="color:blue;">(${p.room || 'گشتی'})</small></span>
-    <div>
-        <button onclick="editProduct('${key}')" style="background:#d4af37;color:black;border:none;padding:8px 12px;border-radius:10px;margin-left:5px;cursor:pointer;">${t.edit}</button>
-        <button onclick="db.ref('products/${key}').remove()" style="background:red;color:white;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;">${t.delete}</button>
-    </div>
-    </div>
-    `;
-}
-});
-}
-});
-
-/* FETCH ADS */
-db.ref('ads').on('value',snap=>{
-const slider=document.getElementById('adSlider');
-const adminAdList=document.getElementById('adminAdList');
-slider.innerHTML='';
-adminAdList.innerHTML='';
-const ads=snap.val();
-const t = translations[currentLang];
-if(ads){
-Object.keys(ads).forEach((key,i)=>{
-slider.innerHTML += `<img src="${ads[key].img}" class="ad-slide ${i===0?'active':''}">`;
-adminAdList.innerHTML += `
-<div style="padding:10px; display:flex; justify-content:space-between;">
-<span>ڕیکلامی ${i+1}</span>
-<button onclick="db.ref('ads/${key}').remove()" style="background:red; color:white; border:none; padding:5px 10px; border-radius:5px;">${t.delete}</button>
-</div>
-`;
-});
-}
-});
-
-/* AD SLIDER TIMER */
-setInterval(()=>{
-const slides=document.querySelectorAll('.ad-slide');
-if(slides.length>0){
-let active=document.querySelector('.ad-slide.active');
-active.classList.remove('active');
-(active.nextElementSibling || slides[0]).classList.add('active');
-}
-},4000);
-
-/* SAVE & UPDATE PRODUCT */
-function saveProduct(){
-const pKey = document.getElementById('pKey').value;
-const p={
-name:document.getElementById('pName').value,
-price:document.getElementById('pPrice').value,
-desc:document.getElementById('pDesc').value,
-img:document.getElementById('pImg').value,
-category:document.getElementById('pCategory').value,
-type:document.getElementById('pType').value,
-room: currentRoom
-};
-if(p.name && p.price && p.img){
-    if(pKey) {
-        db.ref('products/' + pKey).update(p, ()=>{
-            alert("Done ✅");
-            clearForm();
-        });
+    if (targetSec) targetSec.classList.add('active-section');
+    
+    if(catId === 'barber_materials' || catId === 'all') {
+        document.getElementById('barberSubRooms').style.display = 'flex';
     } else {
-        db.ref('products').push().set(p,()=>{
-            alert("Done ✅");
-            clearForm();
+        document.getElementById('barberSubRooms').style.display = 'none';
+    }
+}
+
+function filterBarberRoom(room, btn) {
+    document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active-sub'));
+    btn.classList.add('active-sub');
+    selectedBarberRoom = room;
+    db.ref('products').once('value', () => {}); 
+}
+
+function toggleAdminBarberRooms(val) {
+    document.getElementById('pBarberRoom').style.display = (val === 'barber_materials') ? 'block' : 'none';
+}
+
+function searchProducts() {
+    let input = document.getElementById("searchInput").value.toLowerCase();
+    document.querySelectorAll(".item-card").forEach(card => {
+        card.style.display = card.innerText.toLowerCase().includes(input) ? "block" : "none";
+    });
+}
+
+/* FETCH PRODUCTS */
+db.ref('products').on('value', snap => {
+    const data = snap.val();
+    
+    const grids = {
+        all: document.getElementById('allGrid'),
+        barber_materials: document.getElementById('barber_materialsGrid'),
+        barber_chair: document.getElementById('barber_chairGrid'),
+        perfume: document.getElementById('perfumeGrid'),
+        shampoo: document.getElementById('shampooGrid'),
+        men: document.getElementById('menGrid'),
+        women: document.getElementById('womenGrid'),
+        paint: document.getElementById('paintGrid'),
+        cream: document.getElementById('creamGrid'),
+        other: document.getElementById('otherGrid')
+    };
+
+    Object.values(grids).forEach(g => { if(g) g.innerHTML = ''; });
+    const adminList = document.getElementById('adminProductList');
+    if(adminList) adminList.innerHTML = '';
+
+    if (data) {
+        Object.keys(data).reverse().forEach(key => {
+            const p = data[key];
+            
+            if(p.category === 'barber_materials' && selectedBarberRoom !== 'all' && p.barberRoom !== selectedBarberRoom) {
+                return; 
+            }
+
+            let productHTML = `
+            <div class="item-card">
+                ${p.type === 'sale' ? `<div class="badge-sale">داشکاندن 🔥</div>` : ''}
+                ${p.type === 'guarantee' ? `<div class="badge-guarantee">گرێنتی ✅</div>` : ''}
+                <div class="img-box"><img src="${p.img}"></div>
+                <div class="info">
+                    <b>${p.name}</b>
+                    <div class="desc-text">${p.desc || ''}</div>
+                    <div class="price">${formatPrice(p.price)} د.ع</div>
+                    <button class="add-cart-btn" onclick="addToCart('${p.name}','${p.price}','${p.img}')">زیادکردن بۆ سەبەتە 🛒</button>
+                </div>
+            </div>`;
+
+            if(grids.all) grids.all.innerHTML += productHTML;
+            if(grids[p.category]) grids[p.category].innerHTML += productHTML;
+
+            if (adminList) {
+                adminList.innerHTML += `
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:10px; border-bottom:1px solid #eee;">
+                    <span>${p.name} <small style="color:blue;">(${p.category})</small></span>
+                    <div>
+                        <button onclick="editProduct('${key}')" style="background:#d4af37;color:black;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;">دەسکاری</button>
+                        <button onclick="db.ref('products/${key}').remove()" style="background:red;color:white;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;">سڕینەوە</button>
+                    </div>
+                </div>`;
+            }
         });
     }
-} else {alert("❌");}
+});
+
+/* CART ACTIONS */
+function addToCart(n, p, i) {
+    cart.push({ name: n, price: p, img: i });
+    document.getElementById('cartCount').innerText = cart.length;
+    alert("کاڵاکە زیادکرا بۆ سەبەتە 🛒");
 }
 
-/* EDIT PRODUCT */
+function updateCartUI() {
+    const list = document.getElementById('cartList');
+    if (!list) return;
+    list.innerHTML = '';
+    let subtotal = 0;
+
+    cart.forEach(item => {
+        list.innerHTML += `
+        <div class="cart-item">
+            <img src="${item.img}">
+            <div style="flex:1;">
+                <div>${item.name}</div>
+                <div class="cart-price">${formatPrice(item.price)} د.ع</div>
+            </div>
+        </div>`;
+        subtotal += parseInt(item.price);
+    });
+    
+    let total = subtotal > 0 ? (subtotal + deliveryFee) : 0;
+    document.getElementById('cartTotal').innerHTML = `
+        <div style="font-size:16px; color:#555;">نرخی کاڵاکان: ${formatPrice(subtotal)} د.ع</div>
+        <div style="font-size:16px; color:#555; margin-bottom:5px;">گەیاندن: ${formatPrice(deliveryFee)} د.ع</div>
+        <div>کۆیی گشتی: ${formatPrice(total)} د.ع</div>
+    `;
+}
+
+/* SUBMIT ORDER */
+function submitOrder() {
+    if (cart.length === 0) { alert("سەبەتەکەت بەتاڵە!"); return; }
+    if (!currentUser) { alert("تکایە سەرەتا لە بەشی پرۆفایل بچۆ ژوورەوە یان خۆت تۆمار بکە!"); showPage('profilePage', document.getElementById('nav-profile')); return; }
+    
+    const name = document.getElementById('custName').value;
+    const phone = document.getElementById('custPhone').value;
+    const address = document.getElementById('custAddress').value;
+    const note = document.getElementById('customerNote').value || "نییە";
+
+    if(!name || !phone || !address) { alert("تکایە زانیارییەکانی ناونیشان پڕ بکەرەوە"); return; }
+
+    let subtotal = 0;
+    cart.forEach(i => subtotal += parseInt(i.price));
+    let totalAmt = subtotal + deliveryFee;
+
+    const userKey = cleanEmailKey(currentUser.email);
+
+    const orderData = {
+        customerName: name,
+        phone: phone,
+        address: address,
+        note: note,
+        items: cart,
+        total: totalAmt,
+        userEmail: currentUser.email,
+        date: new Date().toLocaleString()
+    };
+
+    // 1. Save order to admin pool
+    db.ref('orders').push().set(orderData);
+    
+    // 2. Save invoice to user history (Displays in user account)
+    db.ref('user_invoices/' + userKey).push().set(orderData, () => {
+        alert("داواکارییەکەت بەسەرکەوتوویی تۆمارکرا 🎉");
+        
+        // 3. Send WhatsApp
+        let msg = `🔔 داواکارییەکی نوێ لە وێب سایتەوە هات!%0A%0A`;
+        msg += `👤 کڕیار: ${name}%0A`;
+        msg += `📞 مۆبایل: ${phone}%0A`;
+        msg += `📍 ناونیشان: ${address}%0A`;
+        msg += `📝 تێبینی: ${note}%0A%0A`;
+        msg += `📦 کاڵاکان:%0A`;
+        cart.forEach(i => { msg += `- ${i.name} (${formatPrice(i.price)} د.ع)%0A`; });
+        msg += `%0A🚚 گەیاندن: 3,000 د.ع`;
+        msg += `%0A💰 کۆی گشتی: ${formatPrice(totalAmt)} د.ع`;
+
+        cart = [];
+        document.getElementById('cartCount').innerText = 0;
+        updateCartUI();
+        
+        window.open(`https://wa.me/9647507131541?text=${msg}`);
+    });
+}
+
+/* FETCH INVOICES FOR USER (Shows previous purchases) */
+function fetchMyInvoices(userKey) {
+    db.ref('user_invoices/' + userKey).on('value', snap => {
+        const list = document.getElementById('myInvoicesList');
+        list.innerHTML = '';
+        const data = snap.val();
+        if(data) {
+            Object.keys(data).reverse().forEach(id => {
+                const inv = data[id];
+                let itemsStr = inv.items.map(i => i.name).join(' + ');
+                list.innerHTML += `
+                <div class="invoice-box" style="border-left: 5px solid var(--gold); background:#fff; padding:15px; border-radius:14px; margin-bottom:10px;">
+                    <div style="font-size:12px; color:#999;">📅 بەروار: ${inv.date}</div>
+                    <div style="font-weight:bold; margin:5px 0; color:#333;">📦 کاڵاکان: ${itemsStr}</div>
+                    <div style="color:var(--green); font-weight:bold; font-size:15px;">💰 کۆی گشتی: ${formatPrice(inv.total)} د.ع</div>
+                    <div style="font-size:11px; color:#666; margin-top:5px;">📍 ناردراوە بۆ: ${inv.address}</div>
+                </div>`;
+            });
+        } else {
+            list.innerHTML = '<p style="text-align:center; color:#888;">هیچ پسوولەیەکی پێشوو نییە.</p>';
+        }
+    });
+}
+
+/* ADMIN LOGICS & ROOMS WATCHERS */
+function checkLogin(){
+    if(document.getElementById('adminPass').value === '75331541'){
+        document.getElementById('loginArea').style.display='none';
+        document.getElementById('adminArea').style.display='block';
+        loadAdminRoomsData();
+    } else { alert("پاسۆرد هەڵەیە ❌"); }
+}
+
+function loadAdminRoomsData() {
+    // 1. Fetching Received Orders Room
+    db.ref('orders').on('value', snap => {
+        const list = document.getElementById('adminOrdersList');
+        list.innerHTML = '';
+        const data = snap.val();
+        if(data) {
+            Object.keys(data).reverse().forEach(key => {
+                const order = data[key];
+                let itemNames = order.items.map(i => i.name).join(' + ');
+                list.innerHTML += `
+                <div class="order-card">
+                    <div><b>👤 ناو:</b> ${order.customerName} | <b>📞 مۆبایل:</b> ${order.phone}</div>
+                    <div><b>📍 ناونیشان:</b> ${order.address}</div>
+                    <div style="color:blue; margin:4px 0;"><b>📦 کاڵاکان:</b> ${itemNames}</div>
+                    <div style="color:var(--green); font-weight:bold;"><b>💰 کۆی گشتی:</b> ${formatPrice(order.total)} د.ع</div>
+                    <div style="font-size:11px; color:#777; margin-top:4px;">📅 ${order.date} | 📧 هەژماری کڕیار: ${order.userEmail || 'دیارنییە'}</div>
+                    <button onclick="db.ref('orders/${key}').remove()" style="background:#ff4757; color:white; border:none; padding:5px 10px; border-radius:8px; cursor:pointer; margin-top:8px; font-size:11px;">ڕەشکردنەوەی داواکاری 🗑️</button>
+                </div>`;
+            });
+        } else {
+            list.innerHTML = '<p style="color:#777;">هیچ داواکارییەکی نوێ لێرە نییە.</p>';
+        }
+    });
+
+    // 2. Fetching Registered Users Room
+    db.ref('users').on('value', snap => {
+        const list = document.getElementById('adminUsersList');
+        list.innerHTML = '';
+        const data = snap.val();
+        if(data) {
+            Object.keys(data).forEach(key => {
+                const user = data[key];
+                list.innerHTML += `
+                <div class="user-card">
+                    👤 <b>ناوی بەکارهێنەر:</b> ${user.name} <br>
+                    📧 <b>ئیمێڵ:</b> ${user.email} <br>
+                    🔑 <b>پاسۆرد:</b> ${user.pass}
+                </div>`;
+            });
+        } else {
+            list.innerHTML = '<p style="color:#777;">هیچ بەکارهێنەرێک تۆمار نەکراوە.</p>';
+        }
+    });
+}
+
+function saveProduct(){
+    const pKey = document.getElementById('pKey').value;
+    const cat = document.getElementById('pCategory').value;
+    const p = {
+        name: document.getElementById('pName').value,
+        price: document.getElementById('pPrice').value,
+        desc: document.getElementById('pDesc').value,
+        img: document.getElementById('pImg').value,
+        category: cat,
+        barberRoom: (cat === 'barber_materials') ? document.getElementById('pBarberRoom').value : 'none',
+        type: document.getElementById('pType').value
+    };
+    if(p.name && p.price && p.img){
+        if(pKey) {
+            db.ref('products/' + pKey).update(p, () => { alert("نوێکرایەوە ✅"); clearForm(); });
+        } else {
+            db.ref('products').push().set(p, () => { alert("بڵاوکردرایەوە ✅"); clearForm(); });
+        }
+    } else { alert("تکایە خانەکان پڕبکەرەوە"); }
+}
+
 function editProduct(key) {
     db.ref('products/' + key).once('value', snap => {
         const p = snap.val();
@@ -1061,9 +1037,12 @@ function editProduct(key) {
             document.getElementById('pPrice').value = p.price;
             document.getElementById('pDesc').value = p.desc || '';
             document.getElementById('pImg').value = p.img;
-            document.getElementById('pCategory').value = p.category || 'other';
+            document.getElementById('pCategory').value = p.category;
+            if(p.category === 'barber_materials') {
+                document.getElementById('pBarberRoom').value = p.barberRoom || 'گشتی';
+                document.getElementById('pBarberRoom').style.display = 'block';
+            }
             document.getElementById('pType').value = p.type;
-            document.getElementById('adminArea').scrollTop = 0;
         }
     });
 }
@@ -1076,105 +1055,40 @@ function clearForm() {
     document.getElementById('pImg').value = '';
 }
 
-/* ADD AD */
+/* ADS MANAGEMENT */
+db.ref('ads').on('value', snap => {
+    const slider = document.getElementById('adSlider');
+    const adminAdList = document.getElementById('adminAdList');
+    if(slider) slider.innerHTML = '';
+    if(adminAdList) adminAdList.innerHTML = '';
+    const ads = snap.val();
+    if(ads){
+        Object.keys(ads).forEach((key, i) => {
+            if(slider) slider.innerHTML += `<img src="${ads[key].img}" class="ad-slide ${i===0?'active':''}">`;
+            if(adminAdList) adminAdList.innerHTML += `
+            <div style="padding:10px; display:flex; justify-content:space-between;">
+                <span>ڕیکلامی ${i+1}</span>
+                <button onclick="db.ref('ads/${key}').remove()" style="background:red; color:white; border:none; padding:5px 10px; border-radius:5px;">سڕینەوە</button>
+            </div>`;
+        });
+    }
+});
+
 function addAd(){
-const img=document.getElementById('adImg').value;
-if(img){
-db.ref('ads').push().set({img},()=>{
-alert("✅");
-document.getElementById('adImg').value = '';
-});
-}
+    const img = document.getElementById('adImg').value;
+    if(img){ db.ref('ads').push().set({img}, () => { alert("ڕیکلام زیادکرا ✅"); document.getElementById('adImg').value = ''; }); }
 }
 
-/* ADMIN LOGIN */
-function checkLogin(){
-const pass = document.getElementById('adminPass').value;
-if(pass === '75331541'){
-    currentRoom = "general";
-    document.getElementById('roomTitle').innerText = "💻 ژووری گشتی ئەدمین";
-    loginSuccess();
-} else if(pass === 'room1') {
-    currentRoom = "room1";
-    document.getElementById('roomTitle').innerText = "🚪 ژووری یەکەم (ئەدمین ١)";
-    loginSuccess();
-} else if(pass === 'room2') {
-    currentRoom = "room2";
-    document.getElementById('roomTitle').innerText = "🚪 ژووری دووەم (ئەدمین ٢)";
-    loginSuccess();
-} else {alert("❌");}
-}
-
-function loginSuccess() {
-    document.getElementById('loginArea').style.display='none';
-    document.getElementById('adminArea').style.display='block';
-}
-
-/* CART ACTIONS */
-let cart=[];
-function addToCart(n,p,i){
-cart.push({name:n,price:p,img:i});
-document.getElementById('cartCount').innerText=cart.length;
-alert("🛒");
-}
-
-/* PROMO CODE */
-let discount=0;
-let usedPromo = "هیچ";
-function applyPromo(){
-let code=document.getElementById("promoCode").value;
-if(code==="zako"){
-    discount=2000; usedPromo = "zako";
-    alert("Kodu zako Aktif! ✅");
-} else if(code==="ZM100"){
-    discount=1000; usedPromo = "ZM100";
-    alert("✅");
-} else if(code==="ZM5000"){
-    discount=5000; usedPromo = "ZM5000";
-    alert("✅");
-} else {alert("❌");}
-updateCartUI();
-}
-
-/* REFRESH CART */
-function updateCartUI(){
-const list=document.getElementById('cartList');
-if(!list) return;
-list.innerHTML='';
-let total=0;
-const t = translations[currentLang];
-
-cart.forEach(item=>{
-list.innerHTML += `
-<div class="cart-item">
-<img src="${item.img}">
-<div style="flex:1;">
-<div>${item.name}</div>
-<div class="cart-price">${formatPrice(item.price)} ${t.currency}</div>
-</div>
-</div>
-`;
-total += parseInt(item.price);
-});
-total=total-discount;
-if(total<0){total=0;}
-document.getElementById('cartTotal').innerText = t.total + formatPrice(total) + " " + t.currency;
-document.getElementById('orderBtn').style.display= cart.length>0 ? 'block' : 'none';
-}
-
-/* WHATSAPP INTEGRATION */
-function sendToWhatsApp(){
-let note= document.getElementById("customerNote").value || "...";
-let msg= "Order Details:%0A%0A";
-cart.forEach(i=>{msg += `- ${i.name} (${formatPrice(i.price)})%0A`;});
-msg += `%0APromo : ${usedPromo}`;
-msg += `%0ADiscount : ${formatPrice(discount)}`;
-msg += `%0ANote : ${note}`;
-window.open(`https://wa.me/9647507131541?text=${msg}`);
-}
-
-// Initialize Sorani UI Texts on load
-changeLanguage("sorani");
+setInterval(() => {
+    const slides = document.querySelectorAll('.ad-slide');
+    if(slides.length > 0){
+        let active = document.querySelector('.ad-slide.active');
+        if(active) {
+            active.classList.remove('active');
+            (active.nextElementSibling || slides[0]).classList.add('active');
+        }
+    }
+}, 4000);
 
 </script>
 </body>
