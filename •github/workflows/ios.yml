@@ -1,0 +1,27 @@
+name: Build iOS App
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-cache: 'npm'
+
+    - name: Install Dependencies
+      run: |
+        npm install
+        cd ios && pod install
+
+    - name: Build iOS App
+      run: |
+        xcodebuild -workspace ios/*.xcworkspace -scheme zm-store -configuration Release -sdk iphoneos
