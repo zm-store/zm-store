@@ -19,6 +19,8 @@
     --text:#1c1e21;
     --red:#ff4757;
     --green:#2ecc71;
+    --blue:#3498db;
+    --orange:#f39c12;
 }
 
 *{
@@ -387,6 +389,22 @@ body{
     margin-top:5px;
 }
 
+.remove-cart-item {
+    background: #fff0f1;
+    color: var(--red);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.remove-cart-item:active {
+    transform: scale(0.9);
+}
+
 .delivery-box {
     background: #fff3cd;
     color: #856404;
@@ -439,7 +457,7 @@ body{
     color: var(--gold);
 }
 
-/* MODERN DASHBOARD STYLE (LIKE IMAGE 3) */
+/* MODERN DASHBOARD STYLE */
 .profile-header-card {
     display: flex;
     align-items: center;
@@ -542,7 +560,48 @@ body{
     color: #444;
 }
 
-/* ADMIN ROOMS */
+/* STATUS BADGES */
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+.status-pending { background: #ffeaa7; color: #d63031; }
+.status-approved { background: #c8f7dc; color: #11ac54; }
+.status-rejected { background: #fab1a0; color: #d63031; }
+
+/* ADMIN ROOMS TABS */
+.admin-tabs {
+    display: flex;
+    overflow-x: auto;
+    background: #111;
+    padding: 10px;
+    gap: 10px;
+}
+.admin-tab-btn {
+    background: #222;
+    color: #fff;
+    border: 1px solid #333;
+    padding: 10px 15px;
+    border-radius: 10px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.admin-tab-btn.active-admin-tab {
+    background: var(--gold);
+    color: #000;
+    font-weight: bold;
+}
+.admin-room-panel {
+    display: none;
+}
+.admin-room-panel.active-panel {
+    display: block;
+}
+
 .admin-container{
     padding:15px;
 }
@@ -566,10 +625,10 @@ input,textarea,select{
 
 .order-card {
     background: #f9f9f9;
-    border-right: 5px solid var(--green);
+    border-right: 5px solid var(--blue);
     padding: 15px;
     border-radius: 14px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 .user-card {
@@ -707,7 +766,7 @@ input,textarea,select{
                 سڵاو
                 <span id="welcomeUser">Barber!</span>
             </div>
-            <div class="profile-avatar-box">
+            <div class="profile-avatar-box" id="userAvatarContainer">
                 <svg viewBox="0 0 24 24" width="50" height="50" fill="#a0aec0" style="margin-top:10px;">
                     <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/>
                 </svg>
@@ -751,66 +810,81 @@ input,textarea,select{
         <button class="btn-main" onclick="checkLogin()">چوونە ژوورەوە</button>
     </div>
 
-    <div id="adminArea" style="display:none;" class="admin-container">
-        <h2 style="text-align:center; margin-bottom:15px; color:var(--gold);">💻 ژووری گشتی ئەدمین</h2>
-        
-        <div class="admin-room" style="background: #eef9f1; border: 2px solid var(--green);">
-            <h3 style="color: #1e7e34;">📥 داواکارییە هاتووەکان</h3>
-            <div id="adminOrdersList" style="margin-top:15px;">چاوەڕوانی داواکاری نوێیە...</div>
+    <div id="adminArea" style="display:none;">
+        <div class="admin-tabs">
+            <button class="admin-tab-btn active-admin-tab" onclick="switchAdminRoom('orders-room', this)">📋 داواکارییەکان</button>
+            <button class="admin-tab-btn" onclick="switchAdminRoom('users-room', this)">👥 بەکارهێنەران</button>
+            <button class="admin-tab-btn" onclick="switchAdminRoom('products-room', this)">📦 بەڕێوەبردنی کاڵا</button>
+            <button class="admin-tab-btn" onclick="switchAdminRoom('ads-room', this)">🖼️ ڕیکلامەکان</button>
         </div>
 
-        <div class="admin-room" style="background: #f8f9fa; border: 1px solid #ccc;">
-            <h3 style="color: #2f3542;">👥 بەکارهێنەرە تۆمارکراوەکان</h3>
-            <div id="adminUsersList" style="margin-top:15px;">هیچ بەکارهێنەرێک نییە</div>
-        </div>
+        <div class="admin-container">
+            <div id="orders-room" class="admin-room-panel active-panel">
+                <div class="admin-room" style="background: #fff; border: 2px solid var(--blue);">
+                    <h3 style="color: var(--blue); margin-bottom:15px;">📥 ژووری داواکارییە هاتووەکان</h3>
+                    <div id="adminOrdersList">چاوەڕوانی داواکاری نوێیە...</div>
+                </div>
+            </div>
 
-        <div class="admin-room">
-            <h3>📦 زیادکردنی بەرهەم</h3>
-            <input type="hidden" id="pKey">
-            <input type="text" id="pName" placeholder="ناوی بەرهەم">
-            <input type="number" id="pPrice" placeholder="نرخ">
-            <textarea id="pDesc" placeholder="وەسفی بەرهەم"></textarea>
-            <input type="text" id="pImg" placeholder="لینکی وێنە">
-            
-            <select id="pCategory" onchange="toggleAdminBarberRooms(this.value)">
-                <option value="barber_materials">مەوادی حەڵاق ✂️</option>
-                <option value="barber_chair">کورسی حەلاق 💺</option>
-                <option value="perfume">بۆن</option>
-                <option value="shampoo">شامپۆ</option>
-                <option value="men">پیاوان</option>
-                <option value="women">ئافرەتان 👩</option>
-                <option value="paint">سبوخ 🎨</option>
-                <option value="cream">کرێم</option>
-                <option value="other">گشتی</option>
-            </select>
+            <div id="users-room" class="admin-room-panel">
+                <div class="admin-room" style="background: #fff; border: 2px solid #2f3542;">
+                    <h3 style="color: #2f3542; margin-bottom:15px;">👥 ژووری بەکارهێنەرە تۆمارکراوەکان</h3>
+                    <div id="adminUsersList">هیچ بەکارهێنەرێک نییە</div>
+                </div>
+            </div>
 
-            <select id="pBarberRoom" style="display:block;">
-                <option value="گشتی">ژووری گشتی حەڵاق</option>
-                <option value="موس">موس 🪒</option>
-                <option value="خاولی">خاولی 🧣</option>
-                <option value="مەوادی سپرا">سپرا 💨</option>
-                <option value="واکس">واکس 🧴</option>
-                <option value="شانە">شانە 💈</option>
-            </select>
+            <div id="products-room" class="admin-room-panel">
+                <div class="admin-room">
+                    <h3>📦 زیادکردن یان دەستکاریکردنی بەرهەم</h3>
+                    <input type="hidden" id="pKey">
+                    <input type="text" id="pName" placeholder="ناوی بەرهەم">
+                    <input type="number" id="pPrice" placeholder="نرخ">
+                    <textarea id="pDesc" placeholder="وەسفی بەرهەم"></textarea>
+                    <input type="text" id="pImg" placeholder="لینکی وێنە">
+                    
+                    <select id="pCategory" onchange="toggleAdminBarberRooms(this.value)">
+                        <option value="barber_materials">مەوادی حەڵاق ✂️</option>
+                        <option value="barber_chair">کورسی حەلاق 💺</option>
+                        <option value="perfume">بۆن</option>
+                        <option value="shampoo">شامپۆ</option>
+                        <option value="men">پیاوان</option>
+                        <option value="women">ئافرەتان 👩</option>
+                        <option value="paint">سبوخ 🎨</option>
+                        <option value="cream">کرێم</option>
+                        <option value="other">گشتی</option>
+                    </select>
 
-            <select id="pType">
-                <option value="normal">ئاسایی</option>
-                <option value="sale">داشکاندن 🔥</option>
-                <option value="guarantee">گرێنتی ✅</option>
-            </select>
-            <button class="btn-main" id="saveBtn" onclick="saveProduct()">بڵاوکردنەوە</button>
-        </div>
+                    <select id="pBarberRoom" style="display:block;">
+                        <option value="گشتی">ژووری گشتی حەڵاق</option>
+                        <option value="موس">موس 🪒</option>
+                        <option value="خاولی">خاولی 🧣</option>
+                        <option value="مەوادی سپرا">سپرا 💨</option>
+                        <option value="واکس">واکس 🧴</option>
+                        <option value="شانە">شانە 💈</option>
+                    </select>
 
-        <div class="admin-room">
-            <h3>🖼️ ڕیکلامەکان</h3>
-            <input type="text" id="adImg" placeholder="لینکی وێنە">
-            <button class="btn-main" onclick="addAd()">زیادکردنی ڕیکلام</button>
-            <div id="adminAdList"></div>
-        </div>
+                    <select id="pType">
+                        <option value="normal">ئاسایی</option>
+                        <option value="sale">داشکاندن 🔥</option>
+                        <option value="guarantee">گرێنتی ✅</option>
+                    </select>
+                    <button class="btn-main" id="saveBtn" onclick="saveProduct()">بڵاوکردنەوە / پاشەکەوتکردن</button>
+                </div>
 
-        <div class="admin-room">
-            <h3>📌 بەڕێوەبردنی بەرهەمەکان</h3>
-            <div id="adminProductList"></div>
+                <div class="admin-room">
+                    <h3>📌 لیستی هەموو بەرهەمەکان</h3>
+                    <div id="adminProductList"></div>
+                </div>
+            </div>
+
+            <div id="ads-room" class="admin-room-panel">
+                <div class="admin-room">
+                    <h3>🖼️ بەڕێوەبردنی ڕیکلامەکان</h3>
+                    <input type="text" id="adImg" placeholder="لینکی وێنەی ڕیکلام">
+                    <button class="btn-main" onclick="addAd()">زیادکردنی ڕیکلام</button>
+                    <div id="adminAdList" style="margin-top:15px;"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -838,7 +912,6 @@ let selectedBarberRoom = "all";
 const deliveryFee = 3000;
 let cart = [];
 
-// Clean email key for Firebase paths
 function cleanEmailKey(email) {
     return email.toLowerCase().replace(/[^a-zA-Z0-9]/g, "_");
 }
@@ -892,7 +965,7 @@ function registerUser() {
         if(snap.exists()) {
             alert("ئەم ئیمێڵە پێشتر تۆمارکراوە! تکایە بچۆ بەشی چوونەژوورەوە.");
         } else {
-            const userData = { name: name, email: email, pass: pass };
+            const userData = { name: name, email: email, pass: pass, avatar: "" };
             db.ref('users/' + userKey).set(userData, (err) => {
                 if(!err) {
                     alert("پڕۆفایلەکەت بە سەرکەوتوویی دروستکرا 🎉");
@@ -1061,13 +1134,19 @@ function addToCart(n, p, i) {
     alert("کاڵاکە زیادکرا بۆ سەبەتە 🛒");
 }
 
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    document.getElementById('cartCount').innerText = cart.length;
+    updateCartUI();
+}
+
 function updateCartUI() {
     const list = document.getElementById('cartList');
     if (!list) return;
     list.innerHTML = '';
     let subtotal = 0;
 
-    cart.forEach(item => {
+    cart.forEach((item, index) => {
         list.innerHTML += `
         <div class="cart-item">
             <img src="${item.img}">
@@ -1075,6 +1154,7 @@ function updateCartUI() {
                 <div>${item.name}</div>
                 <div class="cart-price">${formatPrice(item.price)} د.ع</div>
             </div>
+            <button class="remove-cart-item" onclick="removeFromCart(${index})">❌</button>
         </div>`;
         subtotal += parseInt(item.price);
     });
@@ -1087,15 +1167,15 @@ function updateCartUI() {
     `;
 }
 
-/* SUBMIT ORDER */
+/* SUBMIT ORDER DIRECTED TO TARGET WHATSAPP */
 function submitOrder() {
     if (cart.length === 0) { alert("سەبەتەکەت بەتاڵە!"); return; }
     if (!currentUser) { alert("تکایە سەرەتا لە بەشی پرۆفایل بچۆ ژوورەوە یان خۆت تۆمار بکە!"); showPage('profilePage', document.getElementById('nav-profile')); return; }
     
-    const name = document.getElementById('custName').value;
-    const phone = document.getElementById('custPhone').value;
-    const address = document.getElementById('custAddress').value;
-    const note = document.getElementById('customerNote').value || "نییە";
+    const name = document.getElementById('custName').value.trim();
+    const phone = document.getElementById('custPhone').value.trim();
+    const address = document.getElementById('custAddress').value.trim();
+    const note = document.getElementById('customerNote').value.trim() || "نییە";
 
     if(!name || !phone || !address) { alert("تکایە زانیارییەکانی ناونیشان پڕ بکەرەوە"); return; }
 
@@ -1113,33 +1193,40 @@ function submitOrder() {
         items: cart,
         total: totalAmt,
         userEmail: currentUser.email,
+        status: "pending", 
         date: new Date().toLocaleString()
     };
 
-    db.ref('orders').push().set(orderData);
-    
-    db.ref('user_invoices/' + userKey).push().set(orderData, () => {
-        alert("داواکارییەکەت بەسەرکەوتوویی تۆمارکرا 🎉");
-        
-        let msg = `🔔 داواکارییەکی نوێ لە وێب سایتەوە هات!%0A%0A`;
-        msg += `👤 کڕیار: ${name}%0A`;
-        msg += `📞 مۆبایل: ${phone}%0A`;
-        msg += `📍 ناونیشان: ${address}%0A`;
-        msg += `📝 تێبینی: ${note}%0A%0A`;
-        msg += `📦 کاڵاکان:%0A`;
-        cart.forEach(i => { msg += `- ${i.name} (${formatPrice(i.price)} د.ع)%0A`; });
-        msg += `%0A🚚 گەیاندن: 3,000 د.ع`;
-        msg += `%0A💰 کۆی گشتی: ${formatPrice(totalAmt)} د.ع`;
+    const newOrderRef = db.ref('orders').push();
+    const orderId = newOrderRef.key;
 
-        cart = [];
-        document.getElementById('cartCount').innerText = 0;
-        updateCartUI();
-        
-        window.open(`https://wa.me/9647507131541?text=${msg}`);
+    newOrderRef.set(orderData, (err) => {
+        if(!err) {
+            db.ref('user_invoices/' + userKey + '/' + orderId).set(orderData, () => {
+                alert("داواکارییەکەت بەسەرکەوتوویی تۆمارکرا 🎉");
+                
+                let msg = `🔔 داواکارییەکی نوێ لە وێب سایتەوە هات!%0A%0A`;
+                msg += `👤 کڕیار: ${name}%0A`;
+                msg += `📞 مۆبایل: ${phone}%0A`;
+                msg += `📍 ناونیشان: ${address}%0A`;
+                msg += `📝 تێبینی: ${note}%0A%0A`;
+                msg += `📦 کاڵاکان:%0A`;
+                cart.forEach(i => { msg += `- ${i.name} (${formatPrice(i.price)} د.ع)%0A`; });
+                msg += `%0A🚚 گەیاندن: 3,000 د.ع`;
+                msg += `%0A💰 کۆی گشتی: ${formatPrice(totalAmt)} د.ع`;
+
+                cart = [];
+                document.getElementById('cartCount').innerText = 0;
+                updateCartUI();
+                
+                // Direct WhatsApp API Link to 07507131541
+                window.open(`https://wa.me/9647507131541?text=${msg}`);
+            });
+        }
     });
 }
 
-/* FETCH INVOICES FOR USER */
+/* FETCH INVOICES FOR USER WITH LIVE STATUS SYNC */
 function fetchMyInvoices(userKey) {
     db.ref('user_invoices/' + userKey).on('value', snap => {
         const list = document.getElementById('myInvoicesList');
@@ -1149,9 +1236,23 @@ function fetchMyInvoices(userKey) {
             Object.keys(data).reverse().forEach(id => {
                 const inv = data[id];
                 let itemsStr = inv.items.map(i => i.name).join(' + ');
+                
+                let statusText = "چاوەڕوانە ⏳";
+                let statusClass = "status-pending";
+                if(inv.status === 'approved') {
+                    statusText = "قبوڵکراوە ✅";
+                    statusClass = "status-approved";
+                } else if(inv.status === 'rejected') {
+                    statusText = "ڕەتکراوەتەوە ❌";
+                    statusClass = "status-rejected";
+                }
+
                 list.innerHTML += `
                 <div class="invoice-box" style="border-left: 5px solid var(--gold); background:#fff; padding:15px; border-radius:14px; margin-bottom:10px; width:92%; margin-right:auto; margin-left:auto;">
-                    <div style="font-size:12px; color:#999;">📅 بەروار: ${inv.date}</div>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div style="font-size:12px; color:#999;">📅 بەروار: ${inv.date}</div>
+                        <span class="status-badge ${statusClass}">${statusText}</span>
+                    </div>
                     <div style="font-weight:bold; margin:5px 0; color:#333;">📦 کاڵاکان: ${itemsStr}</div>
                     <div style="color:var(--green); font-weight:bold; font-size:15px;">💰 کۆی گشتی: ${formatPrice(inv.total)} د.ع</div>
                     <div style="font-size:11px; color:#666; margin-top:5px;">📍 ناردراوە بۆ: ${inv.address}</div>
@@ -1163,7 +1264,25 @@ function fetchMyInvoices(userKey) {
     });
 }
 
-/* ADMIN LOGICS & ROOMS WATCHERS */
+/* SWITCH ADMIN ROOM PANEL TABS */
+function switchAdminRoom(roomId, btnElement) {
+    document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active-admin-tab'));
+    btnElement.classList.add('active-admin-tab');
+
+    document.querySelectorAll('.admin-room-panel').forEach(panel => panel.classList.remove('active-panel'));
+    document.getElementById(roomId).classList.add('active-panel');
+}
+
+/* UPDATE ORDER STATUS BY ADMIN */
+function updateOrderStatus(orderId, email, newStatus) {
+    const userKey = cleanEmailKey(email);
+    db.ref('orders/' + orderId + '/status').set(newStatus);
+    db.ref('user_invoices/' + userKey + '/' + orderId + '/status').set(newStatus, () => {
+        alert("دۆخی داواکاری گۆڕدرا بە سەرکەوتوویی 🔄");
+    });
+}
+
+/* ADMIN LOGICS */
 function checkLogin(){
     if(document.getElementById('adminPass').value === '75331541'){
         document.getElementById('loginArea').style.display='none';
@@ -1181,14 +1300,25 @@ function loadAdminRoomsData() {
             Object.keys(data).reverse().forEach(key => {
                 const order = data[key];
                 let itemNames = order.items.map(i => i.name).join(' + ');
+                
+                let currentStatusLabel = "چاوەڕوانە ⏳";
+                if(order.status === 'approved') currentStatusLabel = "قبوڵکراوە ✅";
+                if(order.status === 'rejected') currentStatusLabel = "ڕەتکراوەتەوە ❌";
+
                 list.innerHTML += `
-                <div class="order-card">
+                <div class="order-card" style="border-right: 5px solid ${order.status==='approved'?'var(--green)':order.status==='rejected'?'var(--red)':'var(--blue)'};">
                     <div><b>👤 ناو:</b> ${order.customerName} | <b>📞 مۆبایل:</b> ${order.phone}</div>
                     <div><b>📍 ناونیشان:</b> ${order.address}</div>
                     <div style="color:blue; margin:4px 0;"><b>📦 کاڵاکان:</b> ${itemNames}</div>
                     <div style="color:var(--green); font-weight:bold;"><b>💰 کۆی گشتی:</b> ${formatPrice(order.total)} د.ع</div>
-                    <div style="font-size:11px; color:#777; margin-top:4px;">📅 ${order.date} | 📧 هەژماری کڕیار: ${order.userEmail || 'دیارنییە'}</div>
-                    <button onclick="db.ref('orders/${key}').remove()" style="background:#ff4757; color:white; border:none; padding:5px 10px; border-radius:8px; cursor:pointer; margin-top:8px; font-size:11px;">ڕەشکردنەوەی داواکاری 🗑️</button>
+                    <div style="font-size:11px; color:#777; margin-top:4px;">📅 ${order.date} | 📧 هەژماری: ${order.userEmail}</div>
+                    <div style="margin-top: 5px; font-weight: bold; color: #555;">دۆخی ئێستا: <span style="color: #000;">${currentStatusLabel}</span></div>
+                    
+                    <div style="margin-top: 10px; display: flex; gap: 8px;">
+                        <button onclick="updateOrderStatus('${key}', '${order.userEmail}', 'approved')" style="background:var(--green); color:white; border:none; padding:6px 12px; border-radius:8px; cursor:pointer; font-size:12px;">قبوڵکردن ✅</button>
+                        <button onclick="updateOrderStatus('${key}', '${order.userEmail}', 'rejected')" style="background:var(--orange); color:white; border:none; padding:6px 12px; border-radius:8px; cursor:pointer; font-size:12px;">ڕەتکردنەوە ❌</button>
+                        <button onclick="if(confirm('دڵنیای لە ڕەشکردنەوەی یەکجاری؟')){ db.ref('orders/${key}').remove(); db.ref('user_invoices/${cleanEmailKey(order.userEmail)}/${key}').remove(); }" style="background:var(--red); color:white; border:none; padding:6px 12px; border-radius:8px; cursor:pointer; font-size:12px; margin-right: auto;">سڕینەوە 🗑️</button>
+                    </div>
                 </div>`;
             });
         } else {
@@ -1275,9 +1405,9 @@ db.ref('ads').on('value', snap => {
         Object.keys(ads).forEach((key, i) => {
             if(slider) slider.innerHTML += `<img src="${ads[key].img}" class="ad-slide ${i===0?'active':''}">`;
             if(adminAdList) adminAdList.innerHTML += `
-            <div style="padding:10px; display:flex; justify-content:space-between;">
+            <div style="padding:10px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee;">
                 <span>ڕیکلامی ${i+1}</span>
-                <button onclick="db.ref('ads/${key}').remove()" style="background:red; color:white; border:none; padding:5px 10px; border-radius:5px;">سڕینەوە</button>
+                <button onclick="db.ref('ads/${key}').remove()" style="background:red; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">سڕینەوە</button>
             </div>`;
         });
     }
