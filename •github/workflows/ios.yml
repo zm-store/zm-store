@@ -1,27 +1,26 @@
 name: Build iOS App
-
 on:
-  push:
-    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: macos-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-cache: 'npm'
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
-    - name: Install Dependencies
-      run: |
-        npm install
-        cd ios && pod install
+      - name: Install Dependencies
+        run: |
+          npm install
+          npm install @capacitor/core @capacitor/cli
+          npx cap init "ZM Store" "com.zmstore.app" --web-dir=.
+          npx cap add ios
 
-    - name: Build iOS App
-      run: |
-        xcodebuild -workspace ios/*.xcworkspace -scheme zm-store -configuration Release -sdk iphoneos
+      - name: Build iOS Project
+        run: |
+          npx cap sync ios
