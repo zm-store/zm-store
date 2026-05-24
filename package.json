@@ -1,0 +1,10 @@
+{
+  "name": "zm-store",
+  "version": "1.0.0",
+  "description": "ZM Store Web App",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "dependencies": {}
+}
