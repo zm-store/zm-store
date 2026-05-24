@@ -18,10 +18,9 @@ jobs:
       - name: Install Dependencies
         run: |
           npm install
-          npm install @capacitor/core @capacitor/cli
-          npx cap init "ZM Store" "com.zmstore.app" --web-dir=.
-          npx cap add ios
+          npm install @capacitor/core @capacitor/cli @capacitor/ios
 
-      - name: Build iOS Project
+      - name: Build and Sync iOS
         run: |
+          mkdir -p www
           npx cap sync ios
