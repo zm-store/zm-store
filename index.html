@@ -422,6 +422,40 @@ input,textarea,select{
     margin-top:5px;
 }
 
+.cart-qty-controls{
+    display:flex;
+    gap:8px;
+    align-items:center;
+    margin-top:8px;
+}
+
+.cart-qty-btn{
+    background:#d4af37;
+    border:none;
+    color:black;
+    width:24px;
+    height:24px;
+    border-radius:50%;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.cart-qty-display{
+    min-width:30px;
+    text-align:center;
+    font-weight:bold;
+}
+
+.cart-delete-btn{
+    background:#ff4757;
+    border:none;
+    color:white;
+    padding:4px 8px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:10px;
+}
+
 /* PROMO */
 
 .promo-box,
@@ -501,6 +535,9 @@ onkeyup="searchProducts()">
         <button class="cat-tab" data-cat="women" onclick="switchCategory('women', this)">👩 بەشی ئافرەتان</button>
         <button class="cat-tab" data-cat="paint" onclick="switchCategory('paint', this)">🎨 بەشی سبوخ</button>
         <button class="cat-tab" data-cat="cream" onclick="switchCategory('cream', this)">🧴 بەشی کرێم</button>
+        <button class="cat-tab" data-cat="mouse" onclick="switchCategory('mouse', this)">🖱️ موس و تێکۆڵ</button>
+        <button class="cat-tab" data-cat="scissors" onclick="switchCategory('scissors', this)">✂️ مەقەس</button>
+        <button class="cat-tab" data-cat="purse" onclick="switchCategory('purse', this)">👜 بۆرصە</button>
         <button class="cat-tab" data-cat="other" onclick="switchCategory('other', this)">📦 بەرهەمەکانی تر</button>
     </div>
 </div>
@@ -567,6 +604,30 @@ onkeyup="searchProducts()">
         <button class="more-btn btn-more-info" onclick="showInfoAlert()">زیاتر بزانە</button>
     </div>
     <div id="creamGrid" class="grid"></div>
+</div>
+
+<div id="mouseSec" class="category-section">
+    <div class="category-title-box">
+        <h2 id="title-mouse">🖱️ موس و تێکۆڵ</h2>
+        <button class="more-btn btn-more-info" onclick="showInfoAlert()">زیاتر بزانە</button>
+    </div>
+    <div id="mouseGrid" class="grid"></div>
+</div>
+
+<div id="scissorsSec" class="category-section">
+    <div class="category-title-box">
+        <h2 id="title-scissors">✂️ مەقەس</h2>
+        <button class="more-btn btn-more-info" onclick="showInfoAlert()">زیاتر بزانە</button>
+    </div>
+    <div id="scissorsGrid" class="grid"></div>
+</div>
+
+<div id="purseSec" class="category-section">
+    <div class="category-title-box">
+        <h2 id="title-purse">👜 بۆرصە</h2>
+        <button class="more-btn btn-more-info" onclick="showInfoAlert()">زیاتر بزانە</button>
+    </div>
+    <div id="purseGrid" class="grid"></div>
 </div>
 
 <div id="otherSec" class="category-section">
@@ -673,6 +734,9 @@ color:#2e86de;
 <option value="women" id="opt-women">ئافرەتان 👩</option>
 <option value="paint" id="opt-paint">سبوخ 🎨</option>
 <option value="cream" id="opt-cream">کرێم</option>
+<option value="mouse" id="opt-mouse">موس و تێکۆڵ 🖱️</option>
+<option value="scissors" id="opt-scissors">مەقەس ✂️</option>
+<option value="purse" id="opt-purse">بۆرصە 👜</option>
 <option value="other" id="opt-other">زیاتر بزانە (گشتی)</option>
 </select>
 
@@ -680,6 +744,7 @@ color:#2e86de;
 <option value="normal" id="opt-normal">ئاسایی</option>
 <option value="sale" id="opt-sale">داشکاندن 🔥</option>
 <option value="guarantee" id="opt-guarantee">گرێنتی ✅</option>
+<option value="flashsale" id="opt-flashsale">فلاش سەلێ ⚡</option>
 </select>
 
 <button class="btn-main" id="saveBtn" onclick="saveProduct()">
@@ -737,38 +802,39 @@ color:#2e86de;
 /* DATABASE LANGUAGES DICTIONARY */
 const translations = {
     sorani: {
-        dir: "rtl", lang: "ku", search: "گەران بۆ بەرهەم...", all: "🔥 هەموو بەرهەمەکان", barber: "💺 کورسی حەلاق", perfume: "✨ بەشی بۆن", shampoo: "🧼 بەشی شامپۆ", men: "🧔 بەشی پیاوان", women: "👩 بەشی ئافرەتان", paint: "🎨 بەشی سبوخ", cream: "🧴 بەشی کرێم", other: "📦 بەرهەمەکانی تر",
-        main: "سەرەکی", more: "زیاتر بزانە", cart: "سەبەتەی کڕین 🛒", promo: "🎁 پرۆمۆ کۆد", activate: "چالاککردنی کۆد", note: "📝 تێبینی", notePlaceholder: "تێبینی بۆ داواکاری...", total: "کۆی گشتی : ", send: "ناردنی داواکاری ✅",
-        admin: "👤 ئەدمین", password: "پاسۆردی ئەدمین", login: "چوونە ژوورەوە", visitor: "👀 ئاماری سەردانکەر", addProduct: "📦 زیادکردنی بەرهەم", pName: "ناوی بەرهەم", pPrice: "نرخ", pDesc: "وەسفی بەرهەم", pImg: "لینکی وێنە", publish: "بڵاوکردنەوە", ads: "🖼️ ڕیکلامەکان", manage: "📌 بەڕێوەبردنی بەرهەمەکان", addAd: "زیادکردنی ڕیکلام", edit: "دەسکاری", delete: "سڕینەوە", normal: "ئاسایی", sale: "داشکاندن 🔥", guarantee: "گرێنتی ✅", currency: "د.ع", addCartBtn: "زیادکردن بۆ سەبەتە 🛒"
+        dir: "rtl", lang: "ku", search: "گەران بۆ بەرهەم...", all: "🔥 هەموو بەرهەمەکان", barber: "💺 کورسی حەلاق", perfume: "✨ بەشی بۆن", shampoo: "🧼 بەشی شامپۆ", men: "🧔 بەشی پیاوان", women: "👩 بەشی ئافرەتان", paint: "🎨 بەشی سبوخ", cream: "🧴 بەشی کرێم", mouse: "🖱️ موس و تێکۆڵ", scissors: "✂️ مەقەس", purse: "👜 بۆرصە", other: "📦 بەرهەمەکانی تر",
+        main: "سەرەکی", more: "زیاتر بزانە", cart: "سەبەتەی کڕین 🛒", promo: "🎁 پرۆمۆ کۆد", activate: "چالاککردنی کۆد", note: "📝 تێبینی", notePlaceholder: "تێبینی بۆ داواکاری...", total: "کۆی گشتی : ", send: "ناردنی داواکاری ✅", shipping: "کێشانی: ",
+        admin: "👤 ئەدمین", password: "پاسۆردی ئەدمین", login: "چوونە ژوورەوە", visitor: "👀 ئاماری سەردانکەر", addProduct: "📦 زیادکردنی بەرهەم", pName: "ناوی بەرهەم", pPrice: "نرخ", pDesc: "وەسفی بەرهەم", pImg: "لینکی وێنە", publish: "بڵاوکردنەوە", ads: "🖼️ ڕیکلامەکان", manage: "📌 بەڕێوەبردنی بەرهەمەکان", addAd: "زیادکردنی ڕیکلام", edit: "دەسکاری", delete: "سڕینەوە", normal: "ئاسایی", sale: "داشکاندن 🔥", guarantee: "گرێنتی ✅", flashsale: "فلاش سەلێ ⚡", currency: "د.ع", addCartBtn: "زیادکردن بۆ سەبەتە 🛒", decrease: "کەم بکە", increase: "زیاد بکە"
     },
     badini: {
-        dir: "rtl", lang: "ku", search: "گەڕیان بۆ بەرهەمی...", all: "🔥 هەمی بەرهەم", barber: "💺 پشکا کورسیێن حەلاقیێ", perfume: "✨ پشکا بێهنۆکا", shampoo: "🧼 پشکا شامپۆیا", men: "🧔 پشکا زەلاما", women: "👩 پشکا ئافرەتا", paint: "🎨 پشکا بۆیاغێ", cream: "🧴 پشکا کریما", other: "📦 بەرهەمێن دی",
-        main: "سەرەکی", more: "پتر بزانە", cart: "سەبەتا کڕینێ 🛒", promo: "🎁 پرۆمۆ کۆد", activate: "چالاککرنا کۆدی", note: "📝 تێبینی", notePlaceholder: "تێبینی بۆ داواکاریێ...", total: "کۆما گشتی : ", send: "ناردنا داواکاریێ ✅",
-        admin: "👤 ئەدمین", password: "پاسۆردێ ئەدمینی", login: "چوونە ژوورێ", visitor: "👀 ئامارا سەرەدانکەرا", addProduct: "📦 زێدەکرنا بەرهەمی", pName: "ناڤێ بەرهەمی", pPrice: "بها", pDesc: "وەسفێ بەرهەمی", pImg: "لینكا وێنەی", publish: "بەلاڤکرن", ads: "🖼️ ڕیکلام", manage: "📌 بڕێڤەبرنا بەرهەما", addAd: "زێدەکرنا ڕیکلامێ", edit: "دەستکاری", delete: "ژێبرن", normal: "ئاسایی", sale: "داشکانن 🔥", guarantee: "گرەنتی ✅", currency: "د.ع", addCartBtn: "زێدەکرن بۆ سەبەتێ 🛒"
+        dir: "rtl", lang: "ku", search: "گەڕیان بۆ بەرهەمی...", all: "🔥 هەمی بەرهەم", barber: "💺 پشکا کورسیێن حەلاقیێ", perfume: "✨ پشکا بێهنۆکا", shampoo: "🧼 پشکا شامپۆیا", men: "🧔 پشکا زەلاما", women: "👩 پشکا ئافرەتا", paint: "🎨 پشکا بۆیاغێ", cream: "🧴 پشکا کریما", mouse: "🖱️ مۆسا تێکاڵ", scissors: "✂️ مەقەس", purse: "👜 بۆرصە", other: "📦 بەرهەمێن دی",
+        main: "سەرەکی", more: "پتر بزانە", cart: "سەبەتا کڕینێ 🛒", promo: "🎁 پرۆمۆ کۆد", activate: "چالاککرنا کۆدی", note: "📝 تێبینی", notePlaceholder: "تێبینی بۆ داواکاریێ...", total: "کۆما گشتی : ", send: "ناردنا داواکاریێ ✅", shipping: "کێشانی: ",
+        admin: "👤 ئەدمین", password: "پاسۆردێ ئەدمینی", login: "چوونە ژوورێ", visitor: "👀 ئامارا سەرەدانکەرا", addProduct: "📦 زێدەکرنا بەرهەمی", pName: "ناڤێ بەرهەمی", pPrice: "بها", pDesc: "وەسفێ بەرهەمی", pImg: "لینكا وێنەی", publish: "بەلاڤکرن", ads: "🖼️ ڕیکلام", manage: "📌 بڕێڤەبرنا بەرهەما", addAd: "زێدەکرنا ڕیکلامێ", edit: "دەستکاری", delete: "ژێبرن", normal: "ئاسایی", sale: "داشکانن 🔥", guarantee: "گرەنتی ✅", flashsale: "فلاش سەلێ ⚡", currency: "د.ع", addCartBtn: "زێدەکرن بۆ سەبەتێ 🛒", decrease: "کەم بکە", increase: "زیاد بکە"
     },
     kurmanji: {
-        dir: "rtl", lang: "ku", search: "لێگەڕیانا بەرهەمان...", all: "🔥 Hemû Berhem", barber: "💺 Beşa Kursiyên Sersofiyê", perfume: "✨ Beşa Bîhnxweşiyê", shampoo: "🧼 Beşa Şampoyan", men: "🧔 Beşa Mêran", women: "👩 Beşa Jinan", paint: "🎨 Beşa Boyaxê", cream: "🧴 Beşa Kremê", other: "📦 Berhemên Din",
-        main: "Serke", more: "Zêdetir Bizanibe", cart: "Sepeta Kirînê 🛒", promo: "🎁 Promo Kod", activate: "Kodê Çalak Bike", note: "📝 Têbînî", notePlaceholder: "Têbînî ji bo fermanê...", total: "Giştî : ", send: "Fermanê Bişîne ✅",
-        admin: "👤 Admin", password: "Şîfreya Admin", login: "Têkeve", visitor: "👀 Amara Serdanerana", addProduct: "📦 Berhem Zêde Bike", pName: "Navê Berhemê", pPrice: "Biha", pDesc: "Daxuyaniya Berhemê", pImg: "Lînka Wêneyê", publish: "Belav Bike", ads: "🖼️ Reklam", manage: "📌 Birêvebirina Berhemê", addAd: "Reklam Zêde Bike", edit: "Guhertin", delete: "Rakin", normal: "Asayî", sale: "Daxistin 🔥", guarantee: "Garantî ✅", currency: "IQD", addCartBtn: "Zêde Bike Sepetê 🛒"
+        dir: "rtl", lang: "ku", search: "لێگەڕیانا بەرهەمان...", all: "🔥 Hemû Berhem", barber: "💺 Beşa Kursiyên Sersofiyê", perfume: "✨ Beşa Bîhnxweşiyê", shampoo: "🧼 Beşa Şampoyan", men: "🧔 Beşa Mêran", women: "👩 Beşa Jinan", paint: "🎨 Beşa Boyaxê", cream: "🧴 Beşa Kremê", mouse: "🖱️ Beşa Mouse û Amûr", scissors: "✂️ Gulekan", purse: "👜 Kîse", other: "📦 Berhemên Din",
+        main: "Serke", more: "Zêdetir Bizanibe", cart: "Sepeta Kirînê 🛒", promo: "🎁 Promo Kod", activate: "Kodê Çalak Bike", note: "📝 Têbînî", notePlaceholder: "Têbînî ji bo fermanê...", total: "Giştî : ", send: "Fermanê Bişîne ✅", shipping: "Veberhênandin: ",
+        admin: "👤 Admin", password: "Şîfreya Admin", login: "Têkeve", visitor: "👀 Amara Serdanerana", addProduct: "📦 Berhem Zêde Bike", pName: "Navê Berhemê", pPrice: "Biha", pDesc: "Daxuyaniya Berhemê", pImg: "Lînka Wêneyê", publish: "Belav Bike", ads: "🖼️ Reklam", manage: "📌 Birêvebirina Berhemê", addAd: "Reklam Zêde Bike", edit: "Guhertin", delete: "Rakin", normal: "Asayî", sale: "Daxistin 🔥", guarantee: "Garantî ✅", flashsale: "Flash Sale ⚡", currency: "IQD", addCartBtn: "Zêde Bike Sepetê 🛒", decrease: "Kêm Bike", increase: "Zêde Bike"
     },
     arabic: {
-        dir: "rtl", lang: "ar", search: "البحث عن منتج...", all: "🔥 جميع المنتجات", barber: "💺 قسم كراسي الحلاقة", perfume: "✨ قسم العطور", shampoo: "🧼 قسم الشامبو", men: "🧔 قسم الرجال", women: "👩 قسم النساء", paint: "🎨 قسم الأصباغ", cream: "🧴 قسم الكريمات", other: "📦 منتجات أخرى",
-        main: "الرئيسية", more: "معرفة المزيد", cart: "سلة التسوق 🛒", promo: "🎁 كود الخصم", activate: "تفعيل الكود", note: "📝 ملاحظة", notePlaceholder: "ملاحظات حول الطلب...", total: "المجموع الكلي : ", send: "إرسال الطلب ✅",
-        admin: "👤 الأدمن", password: "رمز الأدمن", login: "تسجيل الدخول", visitor: "👀 عدد الزوار", addProduct: "📦 إضافة منتج", pName: "اسم المنتج", pPrice: "السعر", pDesc: "وصف المنتج", pImg: "رابط الصورة", publish: "نشر المنتج", ads: "🖼️ الإعلانات", manage: "📌 إدارة المنتجات", addAd: "إضافة إعلان", edit: "تعديل", delete: "حذف", normal: "عادي", sale: "تخفيض 🔥", guarantee: "ضمان ✅", currency: "د.ع", addCartBtn: "إضافة إلى السلة 🛒"
+        dir: "rtl", lang: "ar", search: "البحث عن منتج...", all: "🔥 جميع المنتجات", barber: "💺 قسم كراسي الحلاقة", perfume: "✨ قسم العطور", shampoo: "🧼 قسم الشامبو", men: "🧔 قسم الرجال", women: "👩 قسم النساء", paint: "🎨 قسم الأصباغ", cream: "🧴 قسم الكريمات", mouse: "🖱️ قسم الماوس والأدوات", scissors: "✂️ المقصات", purse: "👜 المحافظ", other: "📦 منتجات أخرى",
+        main: "الرئيسية", more: "معرفة المزيد", cart: "سلة التسوق 🛒", promo: "🎁 كود الخصم", activate: "تفعيل الكود", note: "📝 ملاحظة", notePlaceholder: "ملاحظات حول الطلب...", total: "المجموع الكلي : ", send: "إرسال الطلب ✅", shipping: "التوصيل: ",
+        admin: "👤 الأدمن", password: "رمز الأدمن", login: "تسجيل الدخول", visitor: "👀 عدد الزوار", addProduct: "📦 إضافة منتج", pName: "اسم المنتج", pPrice: "السعر", pDesc: "وصف المنتج", pImg: "رابط الصورة", publish: "نشر المنتج", ads: "🖼️ الإعلانات", manage: "📌 إدارة المنتجات", addAd: "إضافة إعلان", edit: "تعديل", delete: "حذف", normal: "عادي", sale: "تخفيض 🔥", guarantee: "ضمان ✅", flashsale: "عرض فلاش ⚡", currency: "د.ع", addCartBtn: "إضافة إلى السلة 🛒", decrease: "إنقاص", increase: "زيادة"
     },
     english: {
-        dir: "ltr", lang: "en", search: "Search products...", all: "🔥 All Products", barber: "💺 Barber Chairs", perfume: "✨ Perfumes", shampoo: "🧼 Shampoos", men: "🧔 Men Section", women: "👩 Women Section", paint: "🎨 Paints Section", cream: "🧴 Creams Section", other: "📦 Other Products",
-        main: "Home", more: "Learn More", cart: "Shopping Cart 🛒", promo: "🎁 Promo Code", activate: "Activate Code", note: "📝 Note", notePlaceholder: "Order notes...", total: "Total Amount: ", send: "Send Order ✅",
-        admin: "👤 Admin", password: "Admin Password", login: "Login", visitor: "👀 Visitor Statistics", addProduct: "📦 Add Product", pName: "Product Name", pPrice: "Price", pDesc: "Description", pImg: "Image Link", publish: "Publish", ads: "🖼️ Ads Management", manage: "📌 Manage Products", addAd: "Add Ad", edit: "Edit", delete: "Delete", normal: "Normal", sale: "Sale 🔥", guarantee: "Guarantee ✅", currency: "IQD", addCartBtn: "Add to Cart 🛒"
+        dir: "ltr", lang: "en", search: "Search products...", all: "🔥 All Products", barber: "💺 Barber Chairs", perfume: "✨ Perfumes", shampoo: "🧼 Shampoos", men: "🧔 Men Section", women: "👩 Women Section", paint: "🎨 Paints Section", cream: "🧴 Creams Section", mouse: "🖱️ Mouse & Tools", scissors: "✂️ Scissors", purse: "👜 Purses", other: "📦 Other Products",
+        main: "Home", more: "Learn More", cart: "Shopping Cart 🛒", promo: "🎁 Promo Code", activate: "Activate Code", note: "📝 Note", notePlaceholder: "Order notes...", total: "Total Amount: ", send: "Send Order ✅", shipping: "Shipping: ",
+        admin: "👤 Admin", password: "Admin Password", login: "Login", visitor: "👀 Visitor Statistics", addProduct: "📦 Add Product", pName: "Product Name", pPrice: "Price", pDesc: "Description", pImg: "Image Link", publish: "Publish", ads: "🖼️ Ads Management", manage: "📌 Manage Products", addAd: "Add Ad", edit: "Edit", delete: "Delete", normal: "Normal", sale: "Sale 🔥", guarantee: "Guarantee ✅", flashsale: "Flash Sale ⚡", currency: "IQD", addCartBtn: "Add to Cart 🛒", decrease: "Decrease", increase: "Increase"
     },
     turkish: {
-        dir: "ltr", lang: "tr", search: "Ürün ara...", all: "🔥 Tüm Ürünler", barber: "💺 Berber Koltukları", perfume: "✨ Parfüm Bölümü", shampoo: "🧼 Şampuan Bölümü", men: "🧔 Erkek Bölümü", women: "👩 Kadın Bölümü", paint: "🎨 Boya Bölümü", cream: "🧴 Krem Bölümü", other: "📦 Diğer Ürünler",
-        main: "Anasayfa", more: "Daha Fazla", cart: "Alışveriş Sepeti 🛒", promo: "🎁 Promosyon Kodu", activate: "Kodu Aktif Et", note: "📝 Not", notePlaceholder: "Sipariş notu...", total: "Toplam Tutar: ", send: "Siparişi Gönder ✅",
-        admin: "👤 Admin", password: "Admin Şifresi", login: "Giriş Yap", visitor: "👀 Ziyaretçi İstatistikleri", addProduct: "📦 Ürün Ekle", pName: "Ürün Adı", pPrice: "Fiyat", pDesc: "Ürün Açıklaması", pImg: "Resim Linki", publish: "Yayınla", ads: "🖼️ Reklamlar", manage: "📌 Ürünleri Yönet", addAd: "Reklam Ekle", edit: "Düzenle", delete: "Sil", normal: "Normal", sale: "İndirim 🔥", guarantee: "Garanti ✅", currency: "TL", addCartBtn: "Sepete Ekle 🛒"
+        dir: "ltr", lang: "tr", search: "Ürün ara...", all: "🔥 Tüm Ürünler", barber: "💺 Berber Koltukları", perfume: "✨ Parfüm Bölümü", shampoo: "🧼 Şampuan Bölümü", men: "🧔 Erkek Bölümü", women: "👩 Kadın Bölümü", paint: "🎨 Boya Bölümü", cream: "🧴 Krem Bölümü", mouse: "🖱️ Fare ve Araçlar", scissors: "✂️ Makas", purse: "👜 Çantalar", other: "📦 Diğer Ürünler",
+        main: "Anasayfa", more: "Daha Fazla", cart: "Alışveriş Sepeti 🛒", promo: "🎁 Promosyon Kodu", activate: "Kodu Aktif Et", note: "📝 Not", notePlaceholder: "Sipariş notu...", total: "Toplam Tutar: ", send: "Siparişi Gönder ✅", shipping: "Kargo: ",
+        admin: "👤 Admin", password: "Admin Şifresi", login: "Giriş Yap", visitor: "👀 Ziyaretçi İstatistikleri", addProduct: "📦 Ürün Ekle", pName: "Ürün Adı", pPrice: "Fiyat", pDesc: "Ürün Açıklaması", pImg: "Resim Linki", publish: "Yayınla", ads: "🖼️ Reklamlar", manage: "📌 Ürünleri Yönet", addAd: "Reklam Ekle", edit: "Düzenle", delete: "Sil", normal: "Normal", sale: "İndirim 🔥", guarantee: "Garanti ✅", flashsale: "Flaş Satış ⚡", currency: "TL", addCartBtn: "Sepete Ekle 🛒", decrease: "Azalt", increase: "Artır"
     }
 };
 
 let currentLang = "sorani";
+const SHIPPING_COST = 3000;
 
 function changeLanguage(lang) {
     currentLang = lang;
@@ -807,6 +873,9 @@ function changeLanguage(lang) {
     document.getElementById("title-women").innerText = t.women;
     document.getElementById("title-paint").innerText = t.paint;
     document.getElementById("title-cream").innerText = t.cream;
+    document.getElementById("title-mouse").innerText = t.mouse;
+    document.getElementById("title-scissors").innerText = t.scissors;
+    document.getElementById("title-purse").innerText = t.purse;
     
     document.getElementById("txt-cart-title").innerText = t.cart;
     document.getElementById("txt-promo-title").innerText = t.promo;
@@ -830,11 +899,15 @@ function changeLanguage(lang) {
     document.getElementById("opt-women").innerText = t.women;
     document.getElementById("opt-paint").innerText = t.paint;
     document.getElementById("opt-cream").innerText = t.cream;
+    document.getElementById("opt-mouse").innerText = t.mouse;
+    document.getElementById("opt-scissors").innerText = t.scissors;
+    document.getElementById("opt-purse").innerText = t.purse;
     document.getElementById("opt-other").innerText = t.other;
     
     document.getElementById("opt-normal").innerText = t.normal;
     document.getElementById("opt-sale").innerText = t.sale;
     document.getElementById("opt-guarantee").innerText = t.guarantee;
+    document.getElementById("opt-flashsale").innerText = t.flashsale;
 
     // Navigation & Buttons
     document.getElementById("nav-home").innerHTML = `🏠<br>${t.main}`;
@@ -854,7 +927,10 @@ function changeLanguage(lang) {
     tabs[5].innerText = t.women;
     tabs[6].innerText = t.paint;
     tabs[7].innerText = t.cream;
-    tabs[8].innerText = t.other;
+    tabs[8].innerText = t.mouse;
+    tabs[9].innerText = t.scissors;
+    tabs[10].innerText = t.purse;
+    tabs[11].innerText = t.other;
 
     // Reload UI Components to reflect language change
     db.ref('products').once('value', () => {}); 
@@ -876,6 +952,7 @@ projectId: "zm-parfum",
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 let currentRoom = "general";
+let isLoggedIn = false;
 
 /* VISITOR COUNT */
 let visitorRef = db.ref("visitors");
@@ -932,6 +1009,9 @@ const menGrid=document.getElementById('menGrid');
 const womenGrid=document.getElementById('womenGrid');
 const paintGrid=document.getElementById('paintGrid');
 const creamGrid=document.getElementById('creamGrid');
+const mouseGrid=document.getElementById('mouseGrid');
+const scissorsGrid=document.getElementById('scissorsGrid');
+const purseGrid=document.getElementById('purseGrid');
 const otherGrid=document.getElementById('otherGrid');
 const adminList=document.getElementById('adminProductList');
 
@@ -943,6 +1023,9 @@ menGrid.innerHTML='';
 womenGrid.innerHTML='';
 paintGrid.innerHTML='';
 creamGrid.innerHTML='';
+mouseGrid.innerHTML='';
+scissorsGrid.innerHTML='';
+purseGrid.innerHTML='';
 otherGrid.innerHTML='';
 adminList.innerHTML='';
 
@@ -956,6 +1039,7 @@ const p=data[key];
 let productHTML = `
 <div class="item-card">
 ${p.type==='sale' ? `<div class="badge-sale">${t.sale}</div>` : ''}
+${p.type==='flashsale' ? `<div class="badge-sale" style="background:orange;">${t.flashsale}</div>` : ''}
 ${p.type==='guarantee' ? `<div class="badge-guarantee">${t.guarantee}</div>` : ''}
 <div class="img-box"><img src="${p.img}"></div>
 <div class="info">
@@ -976,9 +1060,12 @@ else if(p.category === 'men') menGrid.innerHTML += productHTML;
 else if(p.category === 'women') womenGrid.innerHTML += productHTML;
 else if(p.category === 'paint') paintGrid.innerHTML += productHTML;
 else if(p.category === 'cream') creamGrid.innerHTML += productHTML;
+else if(p.category === 'mouse') mouseGrid.innerHTML += productHTML;
+else if(p.category === 'scissors') scissorsGrid.innerHTML += productHTML;
+else if(p.category === 'purse') purseGrid.innerHTML += productHTML;
 else otherGrid.innerHTML += productHTML;
 
-if(currentRoom === "general" || p.room === currentRoom) {
+if(isLoggedIn && (currentRoom === "general" || p.room === currentRoom)) {
     adminList.innerHTML += `
     <div style="display:flex; justify-content:space-between; align-items:center; padding:10px; border-bottom:1px solid #eee;">
     <span>${p.name} <small style="color:blue;">(${p.room || 'گشتی'})</small></span>
@@ -1004,12 +1091,14 @@ const t = translations[currentLang];
 if(ads){
 Object.keys(ads).forEach((key,i)=>{
 slider.innerHTML += `<img src="${ads[key].img}" class="ad-slide ${i===0?'active':''}">`;
+if(isLoggedIn) {
 adminAdList.innerHTML += `
 <div style="padding:10px; display:flex; justify-content:space-between;">
 <span>ڕیکلامی ${i+1}</span>
 <button onclick="db.ref('ads/${key}').remove()" style="background:red; color:white; border:none; padding:5px 10px; border-radius:5px;">${t.delete}</button>
 </div>
 `;
+}
 });
 }
 });
@@ -1091,14 +1180,17 @@ document.getElementById('adImg').value = '';
 function checkLogin(){
 const pass = document.getElementById('adminPass').value;
 if(pass === '75331541'){
+    isLoggedIn = true;
     currentRoom = "general";
     document.getElementById('roomTitle').innerText = "💻 ژووری گشتی ئەدمین";
     loginSuccess();
 } else if(pass === 'room1') {
+    isLoggedIn = true;
     currentRoom = "room1";
     document.getElementById('roomTitle').innerText = "🚪 ژووری یەکەم (ئەدمین ١)";
     loginSuccess();
 } else if(pass === 'room2') {
+    isLoggedIn = true;
     currentRoom = "room2";
     document.getElementById('roomTitle').innerText = "🚪 ژووری دووەم (ئەدمین ٢)";
     loginSuccess();
@@ -1108,14 +1200,34 @@ if(pass === '75331541'){
 function loginSuccess() {
     document.getElementById('loginArea').style.display='none';
     document.getElementById('adminArea').style.display='block';
+    document.getElementById('adminPass').value = '';
 }
 
 /* CART ACTIONS */
 let cart=[];
 function addToCart(n,p,i){
-cart.push({name:n,price:p,img:i});
+// Check if item already exists
+let existingItem = cart.find(item => item.name === n && item.price === p);
+if(existingItem) {
+    existingItem.quantity = (existingItem.quantity || 1) + 1;
+} else {
+    cart.push({name:n,price:p,img:i,quantity:1});
+}
 document.getElementById('cartCount').innerText=cart.length;
 alert("🛒");
+}
+
+function changeQuantity(index, change) {
+    if(cart[index]) {
+        cart[index].quantity = Math.max(1, (cart[index].quantity || 1) + change);
+        updateCartUI();
+    }
+}
+
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    document.getElementById('cartCount').innerText=cart.length;
+    updateCartUI();
 }
 
 /* PROMO CODE */
@@ -1144,21 +1256,31 @@ list.innerHTML='';
 let total=0;
 const t = translations[currentLang];
 
-cart.forEach(item=>{
+cart.forEach((item, index)=>{
+const qty = item.quantity || 1;
+const itemTotal = parseInt(item.price) * qty;
 list.innerHTML += `
 <div class="cart-item">
 <img src="${item.img}">
 <div style="flex:1;">
 <div>${item.name}</div>
-<div class="cart-price">${formatPrice(item.price)} ${t.currency}</div>
+<div class="cart-price">${formatPrice(item.price)} ${t.currency} x ${qty} = ${formatPrice(itemTotal)} ${t.currency}</div>
+<div class="cart-qty-controls">
+<button class="cart-qty-btn" onclick="changeQuantity(${index}, -1)">−</button>
+<span class="cart-qty-display">${qty}</span>
+<button class="cart-qty-btn" onclick="changeQuantity(${index}, 1)">+</button>
+<button class="cart-delete-btn" onclick="removeFromCart(${index})">${t.delete}</button>
+</div>
 </div>
 </div>
 `;
-total += parseInt(item.price);
+total += itemTotal;
 });
-total=total-discount;
-if(total<0){total=0;}
-document.getElementById('cartTotal').innerText = t.total + formatPrice(total) + " " + t.currency;
+
+total = total - discount + SHIPPING_COST;
+if(total < SHIPPING_COST) total = SHIPPING_COST;
+
+document.getElementById('cartTotal').innerText = t.total + formatPrice(total) + " " + t.currency + " (شاملی " + formatPrice(SHIPPING_COST) + " کێشان)";
 document.getElementById('orderBtn').style.display= cart.length>0 ? 'block' : 'none';
 }
 
@@ -1166,9 +1288,21 @@ document.getElementById('orderBtn').style.display= cart.length>0 ? 'block' : 'no
 function sendToWhatsApp(){
 let note= document.getElementById("customerNote").value || "...";
 let msg= "Order Details:%0A%0A";
-cart.forEach(i=>{msg += `- ${i.name} (${formatPrice(i.price)})%0A`;});
+cart.forEach(item=>{
+const qty = item.quantity || 1;
+msg += `- ${item.name} x${qty} (${formatPrice(item.price)} x ${qty} = ${formatPrice(parseInt(item.price) * qty)})%0A`;
+});
 msg += `%0APromo : ${usedPromo}`;
-msg += `%0ADiscount : ${formatPrice(discount)}`;
+msg += `%0ADiscount : -${formatPrice(discount)}`;
+msg += `%0AShipping : +${formatPrice(SHIPPING_COST)}`;
+let total = 0;
+cart.forEach(item => {
+    const qty = item.quantity || 1;
+    total += parseInt(item.price) * qty;
+});
+total = total - discount + SHIPPING_COST;
+if(total < SHIPPING_COST) total = SHIPPING_COST;
+msg += `%0A%0ATotal : ${formatPrice(total)}`;
 msg += `%0ANote : ${note}`;
 window.open(`https://wa.me/9647507131541?text=${msg}`);
 }
