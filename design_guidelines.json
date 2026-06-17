@@ -1,0 +1,150 @@
+{
+  "theme": {
+    "mode": "dark",
+    "archetype": "Luxury",
+    "rationale": "High-end beauty products (Progroom Beauty / Zm Store) require a premium, immersive experience. The dark navy base creates depth, while golden/champagne accents signify luxury and high value. The design preserves the original dark navy/blue gradient while elevating visual polish using glassmorphism and enhanced lighting."
+  },
+  "colors": {
+    "background": {
+      "base": "#0A1228",
+      "gradient_start": "#0A1228",
+      "gradient_mid": "#0F1E47",
+      "gradient_end": "#1E3A8A"
+    },
+    "surface": {
+      "glass": "rgba(255, 255, 255, 0.08)",
+      "glass_border": "rgba(255, 255, 255, 0.15)",
+      "card_solid": "#132042",
+      "input_bg": "rgba(255, 255, 255, 0.05)"
+    },
+    "text": {
+      "primary": "#FFFFFF",
+      "secondary": "#A0AABF",
+      "muted": "#6C7B9E",
+      "inverse": "#0A1228",
+      "accent": "#D4AF37"
+    },
+    "accents": {
+      "primary": "#D4AF37",
+      "primary_glow": "rgba(212, 175, 55, 0.4)",
+      "secondary": "#FDFBF7",
+      "error": "#FF4C4C",
+      "success": "#34C759"
+    },
+    "order_badges": {
+      "pending": "#F5A623",
+      "accepted": "#4A90E2",
+      "preparing": "#9013FE",
+      "picked_up": "#F8E71C",
+      "delivered": "#34C759",
+      "rejected": "#D0021B",
+      "completed": "#7ED321",
+      "cancelled": "#9B9B9B"
+    }
+  },
+  "typography": {
+    "font_family": {
+      "primary": "NotoSansArabic"
+    },
+    "sizes": {
+      "h1": 32,
+      "h2": 24,
+      "h3": 20,
+      "body": 16,
+      "small": 14,
+      "tiny": 12
+    },
+    "weights": {
+      "regular": "400",
+      "medium": "500",
+      "bold": "700"
+    },
+    "rules": {
+      "headings": "Bold weight, pure white. RTL alignment mandatory.",
+      "body": "Regular weight, secondary text color. RTL alignment mandatory.",
+      "currency": "IQD must be clearly legible next to the price with proper RTL spacing."
+    }
+  },
+  "layout": {
+    "rtl_rules": [
+      "Use I18nManager.isRTL to adapt layouts. App is entirely in Kurdish Sorani.",
+      "CRITICAL: Always use marginStart/marginEnd and paddingStart/paddingEnd instead of Left/Right for true RTL support in React Native.",
+      "Text alignment must be 'right' (or 'auto' with RTL) to ensure Kurdish text reads naturally."
+    ],
+    "spacing": {
+      "xs": 4,
+      "sm": 8,
+      "md": 16,
+      "lg": 24,
+      "xl": 32,
+      "xxl": 48
+    },
+    "border_radius": {
+      "sm": 8,
+      "md": 16,
+      "lg": 24,
+      "pill": 9999
+    }
+  },
+  "components": {
+    "auth_screen": {
+      "background": "Deep navy gradient with subtle ambient glow (#0A1228 to #1E3A8A).",
+      "logo": "Sparkle emoji with 'Zm Store' in bold NotoSansArabic.",
+      "buttons": "Glassmorphism cards for Google/Apple, solid gold accent button for primary actions. Must fix Google sign-in logic.",
+      "inputs": "Floating label inputs with gold focus state. Soft glassmorphic background."
+    },
+    "product_card": {
+      "style": "Glassmorphism",
+      "background": "rgba(255, 255, 255, 0.05)",
+      "border": "1px solid rgba(255, 255, 255, 0.1)",
+      "shadow": "Subtle dark shadow for depth (shadowColor: '#000', shadowOpacity: 0.3).",
+      "image_container": "Rounded top corners, overflow hidden.",
+      "price_tag": "Gold accent text (#D4AF37)."
+    },
+    "buttons": {
+      "primary": {
+        "background": "#D4AF37",
+        "text": "#0A1228",
+        "radius": 16,
+        "style": "Solid vibrant fill to draw attention."
+      },
+      "secondary": {
+        "background": "transparent",
+        "border": "1px solid #D4AF37",
+        "text": "#D4AF37",
+        "radius": 16
+      }
+    },
+    "status_badges": {
+      "style": "Small pill-shaped containers with 15% opacity background of the badge color and solid text of the badge color."
+    }
+  },
+  "media": {
+    "image_urls": {
+      "banners": [
+        {
+          "url": "https://images.unsplash.com/photo-1766941288512-94a057e71d43?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2OTF8MHwxfHNlYXJjaHwxfHxwcmVtaXVtJTIwYmVhdXR5JTIwc3RvcmUlMjBiYWNrZ3JvdW5kJTIwbmF2eSUyMGRhcmt8ZW58MHx8fHwxNzgxNjg5MTM3fDA&ixlib=rb-4.1.0&q=85",
+          "description": "Dark blue gradient background for hero banners"
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1776875479148-e51ea920282c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2OTF8MHwxfHNlYXJjaHwzfHxwcmVtaXVtJTIwYmVhdXR5JTIwc3RvcmUlMjBiYWNrZ3JvdW5kJTIwbmF2eSUyMGRhcmt8ZW58MHx8fHwxNzgxNjg5MTM3fDA&ixlib=rb-4.1.0&q=85",
+          "description": "Deep blue background with subtle curved lines for promotional banners"
+        }
+      ],
+      "products": [
+        {
+          "url": "https://images.unsplash.com/photo-1775255487971-af15499994b1?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzF8MHwxfHNlYXJjaHwyfHxsdXh1cnklMjBjb3NtZXRpYyUyMHNraW5jYXJlJTIwcHJvZHVjdCUyMGRhcmslMjBiYWNrZ3JvdW5kfGVufDB8fHx8MTc4MTY4OTEzN3ww&ixlib=rb-4.1.0&q=85",
+          "description": "Luxury cosmetic product on dark background"
+        }
+      ]
+    }
+  },
+  "instructions_to_main_agent": [
+    "Strictly follow the color palette to maintain the dark navy luxury theme requested by the user.",
+    "Implement glassmorphism using React Native's blur views or rgba backgrounds with semi-transparent borders.",
+    "Address the Google Sign-in error: Verify the Expo AuthSession/GoogleSignin configuration. Check for missing webClientId, mismatched SHA-1 fingerprints in the Google Cloud Console, or unhandled promise rejections during the sign-in flow. Add clear user-facing error messages in Kurdish.",
+    "RTL MUST BE PERFECT: App is in Kurdish Sorani. Ensure I18nManager.forceRTL(true) is respected. Map all directional properties correctly (use marginStart/End, paddingStart/End, borderStart/End instead of Left/Right).",
+    "Apply NotoSansArabic to all Text components to ensure proper rendering of Kurdish script.",
+    "Every interactive or critical element MUST use a testID property (e.g., testID=\"login-google-button\") to ensure tests pass."
+  ]
+}
