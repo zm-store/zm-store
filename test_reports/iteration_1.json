@@ -1,0 +1,63 @@
+{
+  "summary": "Backend testing for Zm Store / Progroom Beauty (FastAPI + MongoDB). 38 pytest cases executed against the public Emergent preview URL, 36 passed (94.7%). All requested features verified: email signup/signin/logout, /api/me GET+PATCH (including the previously-broken 401 name-edit bug — now PASSES), Google OAuth rejects invalid session_id with 401, seeded catalog (4 categories, 1 banner, 3 products), category filter, product 404, settings, admin authorization (is_admin=true for srtda6@gmail.com), admin CRUD for categories/banners/products, settings PATCH, order creation with correct subtotal/fees/total math, per-user order isolation (404 across users), admin order status transitions with status_history, DELETE /api/me (204 with cascade delete of orders+sessions). Two failures and one server-side h11 error point to real backend bugs (see backend_issues).",
+  "backend_issues": {
+    "critical": [
+      {
+        "endpoint": "GET /api/admin/products",
+        "issue": "Endpoint is MISSING. server.py only defines POST/PATCH/DELETE for /admin/products. The review request explicitly lists this as a required admin endpoint, and the admin UI cannot list products without it. Currently returns 405 Method Not Allowed. Fix: add `@api.get('/admin/products')` that requires admin and returns `[await _product_out(d) for d in db.products.find(...)]` (similar to admin_list_categories at server.py:389-392).",
+        "priority": "HIGH"
+      },
+      {
+        "endpoint": "DELETE /api/me (and /api/admin/categories/{id}, /api/admin/banners/{id}, /api/admin/products/{id})",
+        "issue": "Backend raises `h11._util.LocalProtocolError: Too much data for declared Content-Length` on every 204 response. Root cause: `JSONResponse(status_code=204, content=None)` serializes the body as the literal string `null` (4 bytes) while HTTP 204 requires an empty body. Although the client still receives a 204, uvicorn logs an exception traceback for every call. Fix: replace `JSONResponse(status_code=204, content=None)` with `from fastapi import Response; return Response(status_code=204)` in server.py:334, 431, 494, 574.",
+        "priority": "HIGH"
+      }
+    ],
+    "minor": [
+      {
+        "endpoint": "GET / (root)",
+        "issue": "Root path `/` is defined in app but is not reachable through the Kubernetes ingress (ingress only routes /api/*). Either move the health probe under /api/health or remove the route to avoid confusion."
+      },
+      {
+        "endpoint": "Pydantic v2 deprecations",
+        "issue": "server.py uses `body.dict()` (lines 364, 417, 481, 559) and `@app.on_event('startup'/'shutdown')` (lines 717, 795). Both are deprecated in Pydantic v2 / FastAPI 0.100+. Should be `body.model_dump()` and lifespan handlers respectively. Not currently breaking but will when versions are bumped."
+      }
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [],
+    "react_native_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_zmstore_backend.py",
+    "/app/backend/tests/conftest.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [
+    "Add `GET /api/admin/products` endpoint (admin-protected, returns list of products) in /app/backend/server.py.",
+    "Replace all `JSONResponse(status_code=204, content=None)` with `Response(status_code=204)` (imported from fastapi) at server.py:334, 431, 494, 574 to eliminate the h11 LocalProtocolError on every DELETE.",
+    "(Optional / non-blocking) Migrate `body.dict()` → `body.model_dump()` and `@app.on_event` → lifespan context manager.",
+    "After fixes, re-run `pytest /app/backend/tests/test_zmstore_backend.py -v` — expect 38/38 PASS."
+  ],
+  "critical_code_review_comments": [
+    "server.py is 806 lines — within limits but approaching the 700-line guideline; consider splitting into routers (auth, catalog, admin, orders).",
+    "Admin email list is hardcoded (ADMIN_EMAILS = {'srtda6@gmail.com'}). Acceptable for MVP but should move to env var for production.",
+    "PATCH /api/me validates image data URL size limit at 200KB which is reasonable; HTTPS URL and data:image/ prefix accepted as required.",
+    "Order totals computed server-side from current product prices and current settings — correct, prevents client-side tampering.",
+    "Session expiry handled via TTL index on user_sessions.expires_at (line 723) — good.",
+    "All ObjectIds excluded via `{'_id': 0}` projections — JSON-serialization safe."
+  ],
+  "updated_files": [
+    "/app/backend/tests/__init__.py (new)",
+    "/app/backend/tests/conftest.py (new)",
+    "/app/backend/tests/test_zmstore_backend.py (new)"
+  ],
+  "success_rate": {"backend": "94.7%", "frontend": "not tested (backend-only request)"},
+  "seed_data_creation": "Created TEST_-prefixed users on the fly via /api/auth/signup. Admin user srtda6@gmail.com is created (idempotent) by signup if not present. Admin-CRUD tests create+delete their own categories/banners/products to leave the DB clean. Created order ord_b762b5951a65 (left in DB under regular_user — minor residue, but the regular_user is a randomly-named test user so it does not pollute production data).",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Use BASE_URL from frontend .env key EXPO_PUBLIC_BACKEND_URL (the conftest.py already does this — note the key is EXPO_PUBLIC_BACKEND_URL, NOT EXPO_BACKEND_URL). Admin email is srtda6@gmail.com / password admin123 (test_credentials.md). The two known failures both depend on adding GET /api/admin/products; rerun the full suite after the fix and the count should be 38/38. The DELETE-204 h11 error is silent to the client but visible in /var/log/supervisor/backend.err.log.",
+  "rca_of_issue": "RCA #1 (missing GET /api/admin/products): Developer added admin POST/PATCH/DELETE for products but forgot the GET listing endpoint. Categories, banners and orders all have GET admin endpoints but products does not. Reproduction: curl -H 'Authorization: Bearer <admin_token>' https://mobile-dev-stage-117.preview.emergentagent.com/api/admin/products → 405. Mitigation: add 4-line GET handler mirroring admin_list_categories. RCA #2 (h11 204 error): FastAPI's JSONResponse always serializes the content argument (even None → 'null') and sets Content-Length. HTTP/1.1 spec forbids a body on 204 responses, so h11 in strict mode raises when the body bytes exceed the expected 0. Reproduction: any DELETE on /api/me or /api/admin/* — client sees 204 but backend.err.log shows the traceback. Mitigation: use starlette.Response(status_code=204) which writes no body."
+}
