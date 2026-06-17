@@ -18,7 +18,7 @@ from typing import Optional, List, Literal
 
 import bcrypt
 import httpx
-from fastapi import FastAPI, APIRouter, Header, HTTPException, status
+from fastapi import FastAPI, APIRouter, Header, HTTPException, status, Response
 from fastapi.responses import JSONResponse
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -331,7 +331,7 @@ async def delete_me(authorization: Optional[str] = Header(None)):
     await db.orders.delete_many({"user_id": uid})
     await db.user_sessions.delete_many({"user_id": uid})
     await db.users.delete_one({"user_id": uid})
-    return JSONResponse(status_code=204, content=None)
+    return Response(status_code=204)
 
 
 # ─── settings ───────────────────────────────────────────────────────────────
@@ -428,7 +428,7 @@ async def admin_delete_category(cat_id: str, authorization: Optional[str] = Head
     await require_admin(authorization)
     await db.categories.delete_one({"category_id": cat_id})
     await db.products.delete_many({"category_id": cat_id})
-    return JSONResponse(status_code=204, content=None)
+    return Response(status_code=204)
 
 
 # ─── banners ────────────────────────────────────────────────────────────────
@@ -491,7 +491,7 @@ async def admin_update_banner(bid: str, body: BannerBody, authorization: Optiona
 async def admin_delete_banner(bid: str, authorization: Optional[str] = Header(None)):
     await require_admin(authorization)
     await db.banners.delete_one({"banner_id": bid})
-    return JSONResponse(status_code=204, content=None)
+    return Response(status_code=204)
 
 
 # ─── products ───────────────────────────────────────────────────────────────
@@ -571,7 +571,7 @@ async def admin_update_product(pid: str, body: ProductBody, authorization: Optio
 async def admin_delete_product(pid: str, authorization: Optional[str] = Header(None)):
     await require_admin(authorization)
     await db.products.delete_one({"product_id": pid})
-    return JSONResponse(status_code=204, content=None)
+    return Response(status_code=204)
 
 
 # ─── orders ─────────────────────────────────────────────────────────────────
